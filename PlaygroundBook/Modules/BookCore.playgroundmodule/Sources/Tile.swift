@@ -10,7 +10,8 @@ import SpriteKit
 
 class Tile {
     
-    var tile = SKShapeNode(rectOf: CGSize(width: 20, height: 20))
+    //var tile = SKShapeNode(rectOf: CGSize(width: 20, height: 20))
+    var tile = SKSpriteNode(imageNamed: "visitedNode")
     var isPlayer = false
     var isObstacle = false
     var isTarget = false

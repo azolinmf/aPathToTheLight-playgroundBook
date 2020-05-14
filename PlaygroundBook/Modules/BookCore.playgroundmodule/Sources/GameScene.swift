@@ -7,9 +7,11 @@
 
 import PlaygroundSupport
 import SpriteKit
+import UIKit
 
 
-public class GameScene: SKScene {
+public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
+        
     
     //map and general app variables
     var tileArray: [[Tile]] = [[Tile]]()
@@ -19,12 +21,14 @@ public class GameScene: SKScene {
     var posY = 0
     var marginX = 42
     var marginY = 100
-    let rows = 29
-    let columns = 23
+    let rows = 20
+    let columns = 15
+    let nodeSize = 30
+    let algorithmsPickerOptions = ["A*", "Dijkstra", "Breadth-first"]
     
     //all searches variables
     var playerPos = CGPoint(x: 5, y: 10)
-    var targetPos = CGPoint(x: 16, y: 12)
+    var targetPos = CGPoint(x: 12, y: 12)
     var alreadyFoundTarget = false
     var targetId = 0
     var playerId = 0
@@ -42,14 +46,14 @@ public class GameScene: SKScene {
     var unexploredList : [Tile] = [Tile]()
     
     //playground pages variables
-    public var algorithm : String = "Dijkstra"
+    public var algorithm : String = "A*"
     
     //drawing variables
     var paintIdList : [Int] = [Int]()
     var pathIdList : [Int] = [Int]()
     var shouldDraw = false
     var shouldPaint = false
-    var drawingSpeed = 0.07
+    var drawingSpeed = 0.2
     var timer : Timer? = Timer()
     
     
@@ -66,13 +70,12 @@ public class GameScene: SKScene {
                 
                 let square = Tile()
                 
-                posX = marginX + column * 20
-                posY = marginY + row * 20
+                posX = marginX + column * nodeSize
+                posY = marginY + row * nodeSize
                 
-                square.tile.fillColor = .white
-                square.tile.strokeColor = .black
-                square.tile.alpha = 0.5
+                square.tile.alpha = 0.2
                 square.tile.position = CGPoint(x: posX, y: posY)
+                square.tile.size = CGSize(width: nodeSize, height: nodeSize)
                 
                 square.id = id
                 square.x = column
@@ -88,18 +91,20 @@ public class GameScene: SKScene {
         setPlayerAndTarget()
         
         createButtons()
+        
+        createPickerView()
     }
     
     func createButtons() {
         
-        startButton.position = CGPoint(x: 435, y: 45)
+        startButton.position = CGPoint(x: 425, y: 720)
         startButton.zPosition = 1
         startButton.size = CGSize(width: 112.0, height: 36.0)
         startButton.name = "startButton"
         startButton.isUserInteractionEnabled = false
         self.addChild(startButton)
         
-        clearButton.position = CGPoint(x: 230, y: 45)
+        clearButton.position = CGPoint(x: 280, y: 720)
         clearButton.zPosition = 1
         clearButton.size = CGSize(width: 82.0, height: 34.0)
         clearButton.name = "clearButton"
@@ -118,8 +123,8 @@ public class GameScene: SKScene {
                 tileArray[column][row].hCost = 0.0
                 tileArray[column][row].currentTile = false
                 tileArray[column][row].isOnOpenList = false
-                tileArray[column][row].tile.fillColor = .white
-                tileArray[column][row].tile.alpha = 0.5
+                tileArray[column][row].tile.texture = SKTexture(imageNamed: "visitedNode")
+                tileArray[column][row].tile.alpha = 0.2
                 tileArray[column][row].isObstacle = false
                 tileArray[column][row].parentId = 0
             }
@@ -137,6 +142,7 @@ public class GameScene: SKScene {
         paintIdList.removeAll()
     }
     
+    
     func animateObstacleAtPos(column: Int, row: Int) {
         let rotate = SKAction.rotate(byAngle: (2 * .pi) , duration: 0.5)
         let growUp = SKAction.scale(to: 1.5, duration: 0.25)
@@ -147,12 +153,25 @@ public class GameScene: SKScene {
         tileArray[column][row].tile.run(sequence)
     }
     
+    func animateTarget(column: Int, row: Int) {
+        let fadeIn = SKAction.fadeIn(withDuration: 1.8)
+        let fadeOut = SKAction.fadeOut(withDuration: 1.8)
+        let sequence = SKAction.sequence([fadeIn, fadeOut])
+        let repeatSequence = SKAction.repeatForever(sequence)
+        
+        tileArray[column][row].tile.run(repeatSequence)
+    }
+    
     func setPlayerAndTarget() {
         tileArray[Int(playerPos.x)][Int(playerPos.y)].isPlayer = true
-        tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.fillColor = .purple
-        tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.alpha = 0.5
+        tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.texture = SKTexture(imageNamed: "planet")
+        tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.size = CGSize(width: 45, height: 36.8)
+        tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.alpha = 1.0
+        
         tileArray[Int(targetPos.x)][Int(targetPos.y)].isTarget = true
-        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.fillColor = .black
+        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.texture = SKTexture(imageNamed: "star")
+        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.size = CGSize(width: 60, height: 42.4)
+        animateTarget(column: Int(targetPos.x), row: Int(targetPos.y))
         
         playerId = tileArray[Int(playerPos.x)][Int(playerPos.y)].id
         targetId = tileArray[Int(targetPos.x)][Int(targetPos.y)].id
@@ -168,20 +187,24 @@ public class GameScene: SKScene {
             resetSearchVariables()
         }
         else if startButton.contains(pos) {
+            //resetSearchVariables()
             if !alreadyFoundTarget {
                 
                 switch algorithm {
                 case "A*" :
                     _ = self.aStar()
-                case "D" :
+                case "Dijkstra" :
+                    _ = self.dijkstra()
+                case "Breadth-first" :
                     _ = self.dijkstra()
                 default:
-                    _ = breadthFirst()
+                    _ = aStar()
                 }
                 createDrawPathList()
                 
                 timer = Timer.scheduledTimer(timeInterval: drawingSpeed, target: self, selector: #selector(GameScene.paintVisitedTile), userInfo: nil, repeats: true)
             }
+            
         }
         
     }
@@ -195,7 +218,10 @@ public class GameScene: SKScene {
                     //if it's not the player neither the target
                     if tileArray[column][row].tile.contains(pos) && !movingPlayer && !movingTarget {
                         if !tileArray[column][row].isObstacle {
-                            tileArray[column][row].tile.fillColor = SKColor.yellow
+                            
+                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "void")
+                            tileArray[column][row].tile.size = CGSize(width: 30, height: 34.5)
+                            tileArray[column][row].tile.alpha = 1.0
                             tileArray[column][row].tile.zPosition = 2
                             tileArray[column][row].isObstacle = true
                             
@@ -209,17 +235,18 @@ public class GameScene: SKScene {
                             //if it's moving the player
                             movingPlayer = true
                             tileArray[column][row].isPlayer = false
-                            tileArray[column][row].tile.fillColor = .white
-                            tileArray[column][row].tile.strokeColor = .black
-                            tileArray[column][row].tile.alpha = 0.5
+                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "visitedNode")
+                            tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
+                            tileArray[column][row].tile.alpha = 0.2
                         }
                         if (row == Int(targetPos.y) && column == Int(targetPos.x)) {
                             //if it's moving the target
                             movingTarget = true
                             tileArray[column][row].isTarget = false
-                            tileArray[column][row].tile.fillColor = .white
-                            tileArray[column][row].tile.strokeColor = .black
-                            tileArray[column][row].tile.alpha = 0.5
+                            tileArray[column][row].tile.removeAllActions()
+                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "visitedNode")
+                            tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
+                            tileArray[column][row].tile.alpha = 0.2
                         }
                     }
                 }
@@ -250,9 +277,7 @@ public class GameScene: SKScene {
                 
                 alreadyFoundTarget = true
                 targetId = currSquare.id
-                currSquare.tile.fillColor = .black
-                currSquare.tile.alpha = 0.5
-                
+
                 return true
             }
             
@@ -329,8 +354,6 @@ public class GameScene: SKScene {
                 
                 alreadyFoundTarget = true
                 targetId = currSquare.id
-                currSquare.tile.fillColor = .black
-                currSquare.tile.alpha = 0.5
                 
                 return true
             }
@@ -419,7 +442,6 @@ public class GameScene: SKScene {
             //lowestCostIndex is the "current square"
             let currSquare = openList[lowestCostIndex]
             let currentSquarePos = CGPoint(x: currSquare.x, y: currSquare.y)
-            // tileArray[Int(currentSquarePos.x)][Int(currentSquarePos.y)].currentTile = true
             
             //Switch it to the closed list
             tileArray[Int(currentSquarePos.x)][Int(currentSquarePos.y)].alreadyVisitedNode = true
@@ -431,8 +453,6 @@ public class GameScene: SKScene {
                 //found target
                 
                 targetId = currSquare.id
-                currSquare.tile.fillColor = .black
-                currSquare.tile.alpha = 0.5
                 alreadyFoundTarget = true
                 
                 return true
@@ -454,6 +474,7 @@ public class GameScene: SKScene {
                                 //if it's not an obstacle and has not been visited yet
                                 //if it isn’t on the open list, add it to the open list
                                 if !nextCandidate.isOnOpenList {
+                                   
                                     openList.append(nextCandidate)
                                     nextCandidate.isOnOpenList = true
                                     
@@ -461,6 +482,7 @@ public class GameScene: SKScene {
                                     if !paintIdList.contains(nextCandidate.id){
                                         paintIdList.append(nextCandidate.id)
                                     }
+                                    
                                     
                                     //make the current square the parent of this square
                                     nextCandidate.parentId = currSquare.id
@@ -533,8 +555,9 @@ public class GameScene: SKScene {
             for column in 0...tileArray.count-1 {
                 for row in 0...tileArray[0].count-1 {
                     if tileArray[column][row].tile.contains(pos) {
-                        tileArray[column][row].tile.fillColor = .purple
-                        tileArray[column][row].tile.alpha = 0.5
+                        tileArray[column][row].tile.texture  = SKTexture(imageNamed: "planet")
+                        tileArray[column][row].tile.size = CGSize(width: 45, height: 36.8)
+                        tileArray[column][row].tile.alpha = 1.0
                         tileArray[column][row].isPlayer = true
                         playerPos.x = CGFloat(column)
                         playerPos.y = CGFloat(row)
@@ -550,8 +573,11 @@ public class GameScene: SKScene {
             for column in 0...tileArray.count-1 {
                 for row in 0...tileArray[0].count-1 {
                     if tileArray[column][row].tile.contains(pos) {
-                        tileArray[column][row].tile.fillColor = .black
+                        tileArray[column][row].tile.texture  = SKTexture(imageNamed: "star")
+                        tileArray[column][row].tile.size = CGSize(width: 60, height: 42.4)
+                        tileArray[column][row].tile.alpha = 1.0
                         tileArray[column][row].isTarget = true
+                        animateTarget(column: column, row: row)
                         targetPos.x = CGFloat(column)
                         targetPos.y = CGFloat(row)
                         targetId = posToId(pos: Pos(column, row))
@@ -590,12 +616,14 @@ public class GameScene: SKScene {
         let id = pathIdList.first
         let pos = idToPos(id: id ?? 0)
         
-        tileArray[pos.x][pos.y].tile.fillColor = .systemPink
-        tileArray[pos.x][pos.y].tile.alpha = 0.7
+        tileArray[pos.x][pos.y].tile.alpha = 1.0
+        tileArray[pos.x][pos.y].tile.texture = SKTexture(imageNamed: "pathNode")
 
         if pathIdList.count > 1 {
             pathIdList.removeFirst()
         } else {
+            tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.texture = SKTexture(imageNamed: "planet")
+            tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.zPosition = 3
             if timer != nil {
                 timer!.invalidate()
                 timer = nil
@@ -609,10 +637,8 @@ public class GameScene: SKScene {
         let pos = idToPos(id: id ?? 0)
         
         if !(pos.x == Int(targetPos.x) && pos.y == Int(targetPos.y)) {
-            tileArray[pos.x][pos.y].tile.fillColor = .gray
-            tileArray[pos.x][pos.y].tile.alpha = 0.8
+            tileArray[pos.x][pos.y].tile.alpha = 1.0
         }
-        
         
         if paintIdList.count > 1 {
             paintIdList.removeFirst()
@@ -624,6 +650,43 @@ public class GameScene: SKScene {
             
             timer = Timer.scheduledTimer(timeInterval: drawingSpeed, target: self, selector: #selector(GameScene.paintPath), userInfo: nil, repeats: true)
         }
+        
+    }
+    
+    
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return algorithmsPickerOptions.count
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return algorithmsPickerOptions[row]
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        algorithm = algorithmsPickerOptions[row]
+    }
+    
+    func createPickerView() {
+        guard let view = view else { return }
+        
+        let myPickerView  : UIPickerView = UIPickerView()
+        myPickerView.dataSource = self
+        myPickerView.delegate = self
+        
+        view.addSubview(myPickerView)
+        
+        myPickerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            myPickerView.topAnchor.constraint(equalTo: view.topAnchor, constant: -60),
+            myPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 75),
+            myPickerView.widthAnchor.constraint(equalToConstant: 150)
+        ])
+        
         
     }
     

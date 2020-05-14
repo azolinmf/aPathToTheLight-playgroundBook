@@ -1,14 +1,21 @@
 /*:
  
  # Path finding algorithms
+ 
+ Complete algorithms **always** find the target, but some are more efficient than others.
+ A search algorithm can be optimal and always lead to the shortest path to the target.
 
-  * Note: **A-star**: this is a complete and optimal search algorithm. Type "A*" in the editable code area to use it.
- */
-    
+
+  * Note: **Breadth-first search** is a complete search algorithm.*/
+
 /*:
  
- * Note: **Dijkstra**: this is a complete search algorithm. Type "Dijkstra" in the editable code area to use it.
- */
+ * Note: **Dijkstra** is a complete search algorithm.*/
+
+/*:
+
+* Note: **A-star** is a complete and optimal search algorithm. */
+
 
 //#-hidden-code
 
@@ -22,13 +29,8 @@ let sceneView = SKView(frame: CGRect(x:0 , y:0, width: 512, height: 768))
 if let scene = GameScene(fileNamed: "GameScene") {
 
     scene.scaleMode = .aspectFit
-    //#-end-hidden-code
-    
-scene.algorithm = /*#-editable-code*/"A*" /*#-end-editable-code*/
-     
-    //#-hidden-code
-
     sceneView.presentScene(scene)
+    
 }
 
 PlaygroundPage.current.liveView = sceneView

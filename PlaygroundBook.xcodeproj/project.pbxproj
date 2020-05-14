@@ -28,6 +28,8 @@
 		9D5814E4246B4DEA00D02F47 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E2246B4DEA00D02F47 /* Actions.sks */; };
 		9D5814E5246B4DEA00D02F47 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E3246B4DEA00D02F47 /* GameScene.sks */; };
 		9D5814EA246B584C00D02F47 /* BookCover.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E9246B584C00D02F47 /* BookCover.png */; };
+		9DB738F8246CEB4E00C32342 /* CutsceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */; };
+		9DB738FB246CED1F00C32342 /* Helios Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FA246CED1F00C32342 /* Helios Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -122,7 +124,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5E086DC02051C5A7004D8D25 /* PlaygroundBook.playgroundbook */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlaygroundBook.playgroundbook; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E086DC02051C5A7004D8D25 /* PlaygroundBook.playgroundbook */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PlaygroundBook.playgroundbook; path = PathFindingAlgorithms.playgroundbook; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E086DC72051DD03004D8D25 /* BookOverridingBuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BookOverridingBuildSettings.xcconfig; sourceTree = "<group>"; };
 		5E086DCD2051DDB8004D8D25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LiveView.storyboard; sourceTree = "<group>"; };
 		5E086DCF2051DF0F004D8D25 /* Manifest.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Manifest.plist; sourceTree = "<group>"; };
@@ -154,6 +156,8 @@
 		9D5814E2246B4DEA00D02F47 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		9D5814E3246B4DEA00D02F47 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		9D5814E9246B584C00D02F47 /* BookCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BookCover.png; sourceTree = "<group>"; };
+		9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutsceneViewController.swift; sourceTree = "<group>"; };
+		9DB738FA246CED1F00C32342 /* Helios Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helios Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,6 +298,7 @@
 				5E3196F22061DEA40077BBD7 /* LiveViewSupport.swift */,
 				9D5814DE246B4CB600D02F47 /* GameScene.swift */,
 				9D5814E0246B4D1D00D02F47 /* Tile.swift */,
+				9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -338,6 +343,7 @@
 		5EF2F9792054B64800191409 /* PrivateResources */ = {
 			isa = PBXGroup;
 			children = (
+				9DB738F9246CECF200C32342 /* Fonts */,
 				9D5814E2246B4DEA00D02F47 /* Actions.sks */,
 				9D5814E3246B4DEA00D02F47 /* GameScene.sks */,
 				9D5814E9246B584C00D02F47 /* BookCover.png */,
@@ -355,6 +361,14 @@
 				5E6F7E582367B51E008CC191 /* UserModules */,
 			);
 			name = "Supporting Content";
+			sourceTree = "<group>";
+		};
+		9DB738F9246CECF200C32342 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9DB738FA246CED1F00C32342 /* Helios Regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -491,6 +505,7 @@
 				9D5814EA246B584C00D02F47 /* BookCover.png in Resources */,
 				5E551EC52371FC3F00784365 /* Assets.xcassets in Resources */,
 				5E086DCA2051DDAE004D8D25 /* LiveView.storyboard in Resources */,
+				9DB738FB246CED1F00C32342 /* Helios Regular.ttf in Resources */,
 				9D5814E4246B4DEA00D02F47 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -565,6 +580,7 @@
 				9D5814DF246B4CB600D02F47 /* GameScene.swift in Sources */,
 				5E3196F32061DEA40077BBD7 /* LiveViewSupport.swift in Sources */,
 				5EF2F9AE2054BBF300191409 /* LiveViewController.swift in Sources */,
+				9DB738F8246CEB4E00C32342 /* CutsceneViewController.swift in Sources */,
 				9D5814E1246B4D1D00D02F47 /* Tile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
