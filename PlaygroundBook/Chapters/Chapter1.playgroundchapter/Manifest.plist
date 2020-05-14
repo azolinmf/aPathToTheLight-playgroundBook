@@ -6,6 +6,7 @@
 	<string>ChapterOneName</string>
 	<key>Pages</key>
 	<array>
+		<string>Cutscene.cutscenepage</string>
 		<string>PlaygroundPage.playgroundpage</string>
 	</array>
 </dict>

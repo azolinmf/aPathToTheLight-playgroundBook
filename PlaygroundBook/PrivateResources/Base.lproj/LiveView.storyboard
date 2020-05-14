@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="planet" translatesAutoresizingMaskIntoConstraints="NO" id="edM-2k-lXJ">
-                                <rect key="frame" x="0.0" y="180.5" width="375" height="306"/>
+                                <rect key="frame" x="10" y="188.5" width="355" height="290"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="edM-2k-lXJ" secondAttribute="height" multiplier="387:316" id="8ld-B4-UHe"/>
                                 </constraints>
@@ -26,7 +26,7 @@
                         <constraints>
                             <constraint firstItem="edM-2k-lXJ" firstAttribute="centerX" secondItem="qaR-nP-dw0" secondAttribute="centerX" id="cbC-Mv-voB"/>
                             <constraint firstItem="edM-2k-lXJ" firstAttribute="centerY" secondItem="qaR-nP-dw0" secondAttribute="centerY" id="efI-l2-1eC"/>
-                            <constraint firstItem="qaR-nP-dw0" firstAttribute="leading" secondItem="edM-2k-lXJ" secondAttribute="leading" id="hSt-CO-KHh"/>
+                            <constraint firstItem="qaR-nP-dw0" firstAttribute="leading" secondItem="edM-2k-lXJ" secondAttribute="leading" constant="-10" id="hSt-CO-KHh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qaR-nP-dw0"/>
                     </view>

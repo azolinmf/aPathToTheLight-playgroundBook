@@ -186,6 +186,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
             resetSearchVariables()
         }
         else if startButton.contains(pos) {
+            resetSearchVariables()
             if !alreadyFoundTarget {
                 
                 switch algorithm {
@@ -202,6 +203,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
                 
                 timer = Timer.scheduledTimer(timeInterval: drawingSpeed, target: self, selector: #selector(GameScene.paintVisitedTile), userInfo: nil, repeats: true)
             }
+            
         }
         
     }
@@ -666,14 +668,23 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func createPickerView() {
+        guard let view = view else { return }
+        
         let myPickerView  : UIPickerView = UIPickerView()
         myPickerView.dataSource = self
         myPickerView.delegate = self
         
-        //myPickerView.frame.origin.y = 0
-        //myPickerView.center = CGPoint(x: 100, y: 100)
+        view.addSubview(myPickerView)
         
-        self.view?.addSubview(myPickerView)
+        myPickerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            myPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            myPickerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            myPickerView.widthAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        
     }
     
 }
