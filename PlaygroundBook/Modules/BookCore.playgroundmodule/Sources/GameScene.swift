@@ -55,6 +55,8 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
     var shouldPaint = false
     var drawingSpeed = 0.2
     var timer : Timer? = Timer()
+    var nodeInitialOpacity = CGFloat(1.0)
+    var nodeVisitedOpacity = CGFloat(0.0)
     
     
     override public func didMove(to view: SKView) {
@@ -73,7 +75,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
                 posX = marginX + column * nodeSize
                 posY = marginY + row * nodeSize
                 
-                square.tile.alpha = 0.2
+                square.tile.alpha = nodeInitialOpacity
                 square.tile.position = CGPoint(x: posX, y: posY)
                 square.tile.size = CGSize(width: nodeSize, height: nodeSize)
                 
@@ -123,8 +125,9 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
                 tileArray[column][row].hCost = 0.0
                 tileArray[column][row].currentTile = false
                 tileArray[column][row].isOnOpenList = false
-                tileArray[column][row].tile.texture = SKTexture(imageNamed: "visitedNode")
-                tileArray[column][row].tile.alpha = 0.2
+                tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
+                tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
+                tileArray[column][row].tile.alpha = nodeInitialOpacity
                 tileArray[column][row].isObstacle = false
                 tileArray[column][row].parentId = 0
             }
@@ -170,7 +173,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         
         tileArray[Int(targetPos.x)][Int(targetPos.y)].isTarget = true
         tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.texture = SKTexture(imageNamed: "star")
-        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.size = CGSize(width: 60, height: 42.4)
+        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.size = CGSize(width: 60, height: 60)
         animateTarget(column: Int(targetPos.x), row: Int(targetPos.y))
         
         playerId = tileArray[Int(playerPos.x)][Int(playerPos.y)].id
@@ -220,7 +223,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
                         if !tileArray[column][row].isObstacle {
                             
                             tileArray[column][row].tile.texture = SKTexture(imageNamed: "void")
-                            tileArray[column][row].tile.size = CGSize(width: 30, height: 34.5)
+                            tileArray[column][row].tile.size = CGSize(width: 40, height: 37.4)
                             tileArray[column][row].tile.alpha = 1.0
                             tileArray[column][row].tile.zPosition = 2
                             tileArray[column][row].isObstacle = true
@@ -235,18 +238,18 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
                             //if it's moving the player
                             movingPlayer = true
                             tileArray[column][row].isPlayer = false
-                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "visitedNode")
+                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
                             tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
-                            tileArray[column][row].tile.alpha = 0.2
+                            tileArray[column][row].tile.alpha = nodeInitialOpacity
                         }
                         if (row == Int(targetPos.y) && column == Int(targetPos.x)) {
                             //if it's moving the target
                             movingTarget = true
                             tileArray[column][row].isTarget = false
                             tileArray[column][row].tile.removeAllActions()
-                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "visitedNode")
+                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
                             tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
-                            tileArray[column][row].tile.alpha = 0.2
+                            tileArray[column][row].tile.alpha = nodeInitialOpacity
                         }
                     }
                 }
@@ -617,8 +620,9 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         let pos = idToPos(id: id ?? 0)
         
         tileArray[pos.x][pos.y].tile.alpha = 1.0
-        tileArray[pos.x][pos.y].tile.texture = SKTexture(imageNamed: "pathNode")
-
+        tileArray[pos.x][pos.y].tile.texture = SKTexture(imageNamed: "visitedNode2")
+        tileArray[pos.x][pos.y].tile.size =  CGSize(width: 55, height: 55)
+        
         if pathIdList.count > 1 {
             pathIdList.removeFirst()
         } else {
@@ -637,7 +641,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         let pos = idToPos(id: id ?? 0)
         
         if !(pos.x == Int(targetPos.x) && pos.y == Int(targetPos.y)) {
-            tileArray[pos.x][pos.y].tile.alpha = 1.0
+            tileArray[pos.x][pos.y].tile.alpha = nodeVisitedOpacity
         }
         
         if paintIdList.count > 1 {
@@ -676,6 +680,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         let myPickerView  : UIPickerView = UIPickerView()
         myPickerView.dataSource = self
         myPickerView.delegate = self
+        myPickerView.setValue(UIColor.white, forKey: "textColor")
         
         view.addSubview(myPickerView)
         

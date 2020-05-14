@@ -30,6 +30,7 @@
 		9D5814EA246B584C00D02F47 /* BookCover.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E9246B584C00D02F47 /* BookCover.png */; };
 		9DB738F8246CEB4E00C32342 /* CutsceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */; };
 		9DB738FB246CED1F00C32342 /* Helios Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FA246CED1F00C32342 /* Helios Regular.ttf */; };
+		9DB738FD246DAD1200C32342 /* jd_equinox.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FC246DAD1200C32342 /* jd_equinox.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -158,6 +159,7 @@
 		9D5814E9246B584C00D02F47 /* BookCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BookCover.png; sourceTree = "<group>"; };
 		9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutsceneViewController.swift; sourceTree = "<group>"; };
 		9DB738FA246CED1F00C32342 /* Helios Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helios Regular.ttf"; sourceTree = "<group>"; };
+		9DB738FC246DAD1200C32342 /* jd_equinox.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jd_equinox.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,6 +369,7 @@
 			isa = PBXGroup;
 			children = (
 				9DB738FA246CED1F00C32342 /* Helios Regular.ttf */,
+				9DB738FC246DAD1200C32342 /* jd_equinox.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DB738FD246DAD1200C32342 /* jd_equinox.ttf in Resources */,
 				5EF2F97C2054B6E400191409 /* ManifestPlist.strings in Resources */,
 				9D5814E5246B4DEA00D02F47 /* GameScene.sks in Resources */,
 				9D5814EA246B584C00D02F47 /* BookCover.png in Resources */,
