@@ -142,6 +142,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         paintIdList.removeAll()
     }
     
+    
     func animateObstacleAtPos(column: Int, row: Int) {
         let rotate = SKAction.rotate(byAngle: (2 * .pi) , duration: 0.5)
         let growUp = SKAction.scale(to: 1.5, duration: 0.25)
@@ -186,7 +187,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
             resetSearchVariables()
         }
         else if startButton.contains(pos) {
-            resetSearchVariables()
+            //resetSearchVariables()
             if !alreadyFoundTarget {
                 
                 switch algorithm {
@@ -473,6 +474,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
                                 //if it's not an obstacle and has not been visited yet
                                 //if it isn’t on the open list, add it to the open list
                                 if !nextCandidate.isOnOpenList {
+                                   
                                     openList.append(nextCandidate)
                                     nextCandidate.isOnOpenList = true
                                     
@@ -480,6 +482,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
                                     if !paintIdList.contains(nextCandidate.id){
                                         paintIdList.append(nextCandidate.id)
                                     }
+                                    
                                     
                                     //make the current square the parent of this square
                                     nextCandidate.parentId = currSquare.id
@@ -679,9 +682,9 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         myPickerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            myPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            myPickerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            myPickerView.widthAnchor.constraint(equalToConstant: 100)
+            myPickerView.topAnchor.constraint(equalTo: view.topAnchor, constant: -60),
+            myPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 75),
+            myPickerView.widthAnchor.constraint(equalToConstant: 150)
         ])
         
         
