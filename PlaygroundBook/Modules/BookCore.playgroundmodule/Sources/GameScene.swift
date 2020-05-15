@@ -33,6 +33,9 @@ public class GameScene: SKScene {
     let downSpeedButton = SKSpriteNode(imageNamed: "down")
     let speedPanel = SKSpriteNode(imageNamed: "speed1")
     
+    let debug = SKLabelNode(text: "debug")
+    var lastTouchPosition = CGPoint(x: 0, y: 0)
+    
     //all searches variables
     var playerPos = CGPoint(x: 5, y: 10)
     var targetPos = CGPoint(x: 12, y: 12)
@@ -41,6 +44,7 @@ public class GameScene: SKScene {
     var playerId = 0
     var movingPlayer = false
     var movingTarget = false
+    var movableNode : SKNode?
     
     //A* variables
     var lowestCostId = 0
@@ -72,6 +76,9 @@ public class GameScene: SKScene {
     override public func didMove(to view: SKView) {
         
         self.anchorPoint = CGPoint(x: 0, y: 0)
+        
+        debug.position = CGPoint(x: 50, y: 50)
+        self.addChild(debug)
         
         var id = 0
         for column in 0...columns-1 {
@@ -189,7 +196,6 @@ public class GameScene: SKScene {
         pathIdList.removeAll()
         paintIdList.removeAll()
     }
-    
     
     func animateObstacleAtPos(column: Int, row: Int) {
         let rotate = SKAction.rotate(byAngle: (2 * .pi) , duration: 0.5)
@@ -777,7 +783,6 @@ public class GameScene: SKScene {
     
     override public func update(_ currentTime: TimeInterval) {
 
-        
     }
     
     @objc func paintPath() {
@@ -806,8 +811,10 @@ public class GameScene: SKScene {
         let id = paintIdList.first
         let pos = idToPos(id: id ?? 0)
         
+        let desappear = SKAction.fadeAlpha(to: 0.0, duration: drawingSpeed)
+        
         if !(pos.x == Int(targetPos.x) && pos.y == Int(targetPos.y)) {
-            tileArray[pos.x][pos.y].tile.alpha = nodeVisitedOpacity
+            tileArray[pos.x][pos.y].tile.run(desappear)
         }
         
         if paintIdList.count > 1 {
