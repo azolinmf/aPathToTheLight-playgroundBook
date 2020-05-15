@@ -20,8 +20,8 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
     var posX = 0
     var posY = 0
     var marginX = 42
-    var marginY = 100
-    let rows = 20
+    var marginY = 75
+    let rows = 19
     let columns = 15
     let nodeSize = 30
     let algorithmsPickerOptions = ["A*", "Dijkstra", "Breadth-first"]

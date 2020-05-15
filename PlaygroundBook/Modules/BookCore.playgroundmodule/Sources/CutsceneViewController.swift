@@ -7,6 +7,7 @@
 
 import UIKit
 import SpriteKit
+import PlaygroundSupport
 
 public class CutsceneViewController: UIViewController {
     
@@ -65,13 +66,13 @@ public class CutsceneViewController: UIViewController {
         
         createFinalPageStar()
         
-        finalPageView.addSubview(goToNextPageView)
+        finalPageView.addSubview(tapToContinueView)
         NSLayoutConstraint.activate([
-            goToNextPageView.bottomAnchor.constraint(equalTo: finalPageView.bottomAnchor),
-            goToNextPageView.centerYAnchor.constraint(equalTo: finalPageView.centerYAnchor),
-            goToNextPageView.widthAnchor.constraint(equalTo: finalPageView.widthAnchor, multiplier: 0.2),
-            goToNextPageView.heightAnchor.constraint(equalTo: finalPageView.heightAnchor, multiplier: 0.1),
-            goToNextPageView.trailingAnchor.constraint(equalTo: finalPageView.trailingAnchor)
+            tapToContinueView.bottomAnchor.constraint(equalTo: finalPageView.bottomAnchor),
+            tapToContinueView.centerYAnchor.constraint(equalTo: finalPageView.centerYAnchor),
+            tapToContinueView.widthAnchor.constraint(equalTo: finalPageView.widthAnchor, multiplier: 0.2),
+            tapToContinueView.heightAnchor.constraint(equalTo: finalPageView.heightAnchor, multiplier: 0.1),
+            tapToContinueView.trailingAnchor.constraint(equalTo: finalPageView.trailingAnchor)
         ])
         
         
@@ -473,6 +474,9 @@ public class CutsceneViewController: UIViewController {
             secondPageView.isHidden = true
             page += 1
             createFinalPage()
+        case 3:
+            secondPageView.isHidden = true
+            PlaygroundPage.current.navigateTo(page: .next)
         default:
             break;
         }
