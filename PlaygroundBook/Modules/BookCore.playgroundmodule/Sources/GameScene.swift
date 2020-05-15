@@ -45,6 +45,7 @@ public class GameScene: SKScene {
     var movingPlayer = false
     var movingTarget = false
     var movableNode : SKNode?
+    var movablePlayer = SKSpriteNode(imageNamed: "planet")
     
     //A* variables
     var lowestCostId = 0
@@ -77,8 +78,13 @@ public class GameScene: SKScene {
         
         self.anchorPoint = CGPoint(x: 0, y: 0)
         
-        debug.position = CGPoint(x: 50, y: 50)
-        self.addChild(debug)
+//        debug.position = CGPoint(x: 50, y: 50)
+//        self.addChild(debug)
+        
+        //to disable interaction and touches:
+        //self.view?.isUserInteractionEnabled = false
+        
+        self.addChild(movablePlayer)
         
         var id = 0
         for column in 0...columns-1 {
@@ -229,6 +235,12 @@ public class GameScene: SKScene {
         
         playerId = tileArray[Int(playerPos.x)][Int(playerPos.y)].id
         targetId = tileArray[Int(targetPos.x)][Int(targetPos.y)].id
+        
+        
+        movablePlayer.size = CGSize(width: 45, height: 36.8)
+        movablePlayer.position = CGPoint(x: 150, y: 120)
+        movablePlayer.isHidden = true
+        
     }
     
     func euclideanDistance(x1 : Double, y1 : Double, x2 : Double, y2 : Double) -> Double {
@@ -409,10 +421,11 @@ public class GameScene: SKScene {
                         if (row == Int(playerPos.y) && column == Int(playerPos.x)) {
                             //if it's moving the player
                             movingPlayer = true
-                            tileArray[column][row].isPlayer = false
-                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
-                            tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
-                            tileArray[column][row].tile.alpha = nodeInitialOpacity
+                            tileArray[column][row].tile.isHidden = true
+//                            tileArray[column][row].isPlayer = false
+//                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
+//                            tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
+//                            tileArray[column][row].tile.alpha = nodeInitialOpacity
                         }
                         if (row == Int(targetPos.y) && column == Int(targetPos.x)) {
                             //if it's moving the target
@@ -727,9 +740,18 @@ public class GameScene: SKScene {
     
     func touchUp(atPoint pos : CGPoint) {
         if movingPlayer {
+            movingPlayer = false
             for column in 0...tileArray.count-1 {
                 for row in 0...tileArray[0].count-1 {
                     if tileArray[column][row].tile.contains(pos) {
+                        
+                        tileArray[Int(playerPos.x)][Int(playerPos.y)].isPlayer = false
+                        tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.texture = SKTexture(imageNamed: "nebula")
+                        tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.size = CGSize(width: nodeSize, height: nodeSize)
+                        tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.alpha = nodeInitialOpacity
+                        tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.isHidden = false
+                        
+                        tileArray[column][row].tile.isHidden = false
                         tileArray[column][row].tile.texture  = SKTexture(imageNamed: "planet")
                         tileArray[column][row].tile.size = CGSize(width: 45, height: 36.8)
                         tileArray[column][row].tile.alpha = 1.0
@@ -737,11 +759,16 @@ public class GameScene: SKScene {
                         playerPos.x = CGFloat(column)
                         playerPos.y = CGFloat(row)
                         playerId = posToId(pos: Pos(column, row))
+                        
+                        movablePlayer.position = playerPos
+                        
+                        return
                     }
                     
                 }
             }
-            movingPlayer.toggle()
+            //se nao entrou no for quer dizer que ta pra fora da tela
+            tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.isHidden = false
         }
         
         if movingTarget {
@@ -760,25 +787,61 @@ public class GameScene: SKScene {
                     
                 }
             }
-            movingTarget.toggle()
+            movingTarget = false
         }
         
     }
     
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { touchDown(atPoint: t.location(in: self)) }
+        
+        if let touch = touches.first {
+            let location = touch.location(in: self)
+            
+            for column in 0...tileArray.count-1 {
+                for row in 0...tileArray[0].count-1 {
+                    if tileArray[column][row].tile.contains(location) && movingPlayer {
+                        movablePlayer.isHidden = false
+                        movableNode = movablePlayer
+                        
+                        movableNode!.position = location
+                        
+                    }
+                }
+            }
+            
+            
+        }
+        
     }
     
     override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { touchMoved(toPoint: t.location(in: self)) }
+        
+        if let touch = touches.first, movableNode != nil {
+            movableNode!.position = touch.location(in: self)
+        }
+        
     }
     
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { touchUp(atPoint: t.location(in: self)) }
+        
+        if let touch = touches.first, movableNode != nil {
+            movableNode!.position = touch.location(in: self)
+            movableNode = nil
+            movablePlayer.isHidden = true
+        }
+        
     }
     
     override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { touchUp(atPoint: t.location(in: self)) }
+        
+        if let touch = touches.first {
+            movableNode = nil
+        }
+        
     }
     
     override public func update(_ currentTime: TimeInterval) {
