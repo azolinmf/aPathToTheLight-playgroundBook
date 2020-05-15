@@ -78,8 +78,8 @@ public class GameScene: SKScene {
         
         self.anchorPoint = CGPoint(x: 0, y: 0)
         
-//        debug.position = CGPoint(x: 50, y: 50)
-//        self.addChild(debug)
+        debug.position = CGPoint(x: 50, y: 50)
+        self.addChild(debug)
         
         //to disable interaction and touches:
         //self.view?.isUserInteractionEnabled = false
@@ -420,7 +420,10 @@ public class GameScene: SKScene {
                     if tileArray[column][row].tile.contains(pos) {
                         if (row == Int(playerPos.y) && column == Int(playerPos.x)) {
                             //if it's moving the player
+                            
                             movingPlayer = true
+                            //debug.text = String(movingPlayer)
+                            
                             tileArray[column][row].tile.isHidden = true
 //                            tileArray[column][row].isPlayer = false
 //                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
@@ -800,7 +803,10 @@ public class GameScene: SKScene {
             
             for column in 0...tileArray.count-1 {
                 for row in 0...tileArray[0].count-1 {
-                    if tileArray[column][row].tile.contains(location) && movingPlayer {
+                    debug.text = String(movingPlayer)
+                    
+                    if tileArray[column][row].tile.contains(location) && tileArray[column][row].isPlayer {
+                    
                         movablePlayer.isHidden = false
                         movableNode = movablePlayer
                         
