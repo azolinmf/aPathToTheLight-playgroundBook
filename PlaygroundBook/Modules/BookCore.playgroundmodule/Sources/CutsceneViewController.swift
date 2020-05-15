@@ -23,8 +23,26 @@ public class CutsceneViewController: UIViewController {
     let firstPlanetScene = SKScene(fileNamed: "PlanetScene")
     let planetNode = SKSpriteNode(imageNamed: "planet")
     
+    let secondPageView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    let secondPageSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    let secondPageScene = SKScene(fileNamed: "SecondPage")
+    let secondPageNumbers = UIImageView(image: UIImage(named: "numbers2"))
+    let secondStarSKView = SKView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
+    let secondStarScene = SKScene(fileNamed: "PlanetScene")
+    let starNode = SKSpriteNode(imageNamed: "star")
+    
+    let finalPageView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    let finalPageSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    let finalPageScene = SKScene(fileNamed: "FinalPage")
+    let finalPageNumbers = UIImageView(image: UIImage(named: "numbers3"))
+    let finalStarSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+    let finalStarScene = SKScene(fileNamed: "PlanetScene")
+    let finalStarNode = SKSpriteNode(imageNamed: "visitedNode2")
+    
     let tapToContinueView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let tapToContinueScene = SKScene(fileNamed: "TapToContinue")
+    let goToNextPageView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    let goToNextPageScene = SKScene(fileNamed: "GoToNextPage")
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +51,199 @@ public class CutsceneViewController: UIViewController {
         view.addGestureRecognizer(tap)
 
         createTapToContinueScene()
-        
+        createGoToNextPageScene()
         createIntro()
         
+    }
+    
+    func createFinalPage() {
+        finalPageView.backgroundColor = .black
         
+        createFinalPageTexts()
+        
+        createFinalPageNumbers()
+        
+        createFinalPageStar()
+        
+        finalPageView.addSubview(goToNextPageView)
+        NSLayoutConstraint.activate([
+            goToNextPageView.bottomAnchor.constraint(equalTo: finalPageView.bottomAnchor),
+            goToNextPageView.centerYAnchor.constraint(equalTo: finalPageView.centerYAnchor),
+            goToNextPageView.widthAnchor.constraint(equalTo: finalPageView.widthAnchor, multiplier: 0.2),
+            goToNextPageView.heightAnchor.constraint(equalTo: finalPageView.heightAnchor, multiplier: 0.1),
+            goToNextPageView.trailingAnchor.constraint(equalTo: finalPageView.trailingAnchor)
+        ])
+        
+        
+        view.addSubview(finalPageView)
+        finalPageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            finalPageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            finalPageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            finalPageView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            finalPageView.heightAnchor.constraint(equalTo: view.heightAnchor)
+        ])
+    }
+    
+    
+    func createFinalPageStar() {
+        finalStarNode.position = CGPoint(x: 0, y: 0)
+        finalStarNode.size = CGSize(width: 70, height: 70)
+        
+        let fadeIn = SKAction.fadeIn(withDuration: 1.8)
+        let fadeOut = SKAction.fadeOut(withDuration: 1.8)
+        let sequence = SKAction.sequence([fadeIn, fadeOut])
+        let repeatSequence = SKAction.repeatForever(sequence)
+        
+        finalStarNode.run(repeatSequence)
+        
+        finalStarScene!.addChild(finalStarNode)
+        finalStarScene?.backgroundColor = .clear
+        
+        finalStarScene?.size = finalStarSKView.frame.size
+        finalStarScene!.scaleMode = .aspectFit
+        finalStarSKView.presentScene(finalStarScene)
+        finalStarSKView.backgroundColor = .clear
+        
+        finalPageView.addSubview(finalStarSKView)
+        finalStarSKView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            finalStarSKView.widthAnchor.constraint(equalTo: finalPageView.widthAnchor, multiplier: 0.25),
+            finalStarSKView.heightAnchor.constraint(equalTo: finalPageView.heightAnchor, multiplier: 0.25),
+            finalStarSKView.trailingAnchor.constraint(equalTo: finalPageView.trailingAnchor),
+            finalStarSKView.bottomAnchor.constraint(equalTo: finalPageNumbers.topAnchor, constant: -20)
+            
+        ])
+    }
+    
+    func createFinalPageTexts() {
+        finalPageScene!.scaleMode = .aspectFit
+        finalPageScene?.backgroundColor = .clear
+        finalPageScene?.alpha = 0.0
+        let appear = SKAction.fadeAlpha(to: 1.0, duration: 3.0)
+        finalPageScene?.run(appear)
+        
+        finalPageSKView.presentScene(finalPageScene)
+        finalPageSKView.backgroundColor = .clear
+        
+        finalPageView.addSubview(finalPageSKView)
+        finalPageSKView.translatesAutoresizingMaskIntoConstraints = false
+        
+        finalPageSKView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            finalPageSKView.centerXAnchor.constraint(equalTo: finalPageView.centerXAnchor),
+            finalPageSKView.widthAnchor.constraint(equalTo: finalPageView.widthAnchor),
+            finalPageSKView.heightAnchor.constraint(equalTo: finalPageView.heightAnchor, multiplier: 0.7),
+            finalPageSKView.topAnchor.constraint(equalTo: finalPageView.topAnchor, constant: 100),
+        ])
+    }
+    
+    func createFinalPageNumbers() {
+        
+        finalPageView.addSubview(finalPageNumbers)
+        finalPageNumbers.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            finalPageNumbers.centerXAnchor.constraint(equalTo: finalPageView.centerXAnchor),
+            finalPageNumbers.bottomAnchor.constraint(equalTo: finalPageView.bottomAnchor, constant: -15),
+            finalPageNumbers.widthAnchor.constraint(equalTo: finalPageView.widthAnchor, multiplier: 0.1),
+            
+        ])
+    }
+    
+    func createSecondPage() {
+        secondPageView.backgroundColor = .black
+        
+        createSecondPageTexts()
+        
+        createSecondPageNumbers()
+        
+        createSecondPageStar()
+
+        secondPageView.addSubview(tapToContinueView)
+        NSLayoutConstraint.activate([
+            tapToContinueView.bottomAnchor.constraint(equalTo: secondPageView.bottomAnchor),
+            tapToContinueView.centerYAnchor.constraint(equalTo: secondPageView.centerYAnchor),
+            tapToContinueView.widthAnchor.constraint(equalTo: secondPageView.widthAnchor, multiplier: 0.2),
+            tapToContinueView.heightAnchor.constraint(equalTo: secondPageView.heightAnchor, multiplier: 0.1),
+            tapToContinueView.trailingAnchor.constraint(equalTo: secondPageView.trailingAnchor)
+        ])
+        
+        
+        view.addSubview(secondPageView)
+        secondPageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            secondPageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            secondPageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            secondPageView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            secondPageView.heightAnchor.constraint(equalTo: view.heightAnchor)
+        ])
+    }
+    
+    func createSecondPageTexts() {
+        
+        secondPageScene!.scaleMode = .aspectFit
+        secondPageScene?.backgroundColor = .clear
+        secondPageScene?.alpha = 0.0
+        let appear = SKAction.fadeAlpha(to: 1.0, duration: 3.0)
+        secondPageScene?.run(appear)
+        
+        secondPageSKView.presentScene(secondPageScene)
+        secondPageSKView.backgroundColor = .clear
+        
+        secondPageView.addSubview(secondPageSKView)
+        secondPageSKView.translatesAutoresizingMaskIntoConstraints = false
+        
+        secondPageSKView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            secondPageSKView.centerXAnchor.constraint(equalTo: secondPageView.centerXAnchor),
+            secondPageSKView.widthAnchor.constraint(equalTo: secondPageView.widthAnchor),
+            secondPageSKView.heightAnchor.constraint(equalTo: secondPageView.heightAnchor, multiplier: 0.7),
+            secondPageSKView.topAnchor.constraint(equalTo: secondPageView.topAnchor, constant: 100)
+        ])
+        
+    }
+    
+    func createSecondPageStar() {
+        
+        starNode.position = CGPoint(x: 0, y: 0)
+        starNode.size = CGSize(width: 70, height: 70)
+        
+        let fadeIn = SKAction.fadeIn(withDuration: 1.8)
+        let fadeOut = SKAction.fadeOut(withDuration: 1.8)
+        let sequence = SKAction.sequence([fadeIn, fadeOut])
+        let repeatSequence = SKAction.repeatForever(sequence)
+        
+        starNode.run(repeatSequence)
+        
+        secondStarScene!.addChild(starNode)
+        secondStarScene?.backgroundColor = .clear
+        
+        secondStarScene?.size = secondStarSKView.frame.size
+        secondStarScene!.scaleMode = .aspectFit
+        secondStarSKView.presentScene(secondStarScene)
+        secondStarSKView.backgroundColor = .clear
+        
+        secondPageView.addSubview(secondStarSKView)
+        secondStarSKView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            secondStarSKView.widthAnchor.constraint(equalTo: secondPageView.widthAnchor, multiplier: 0.25),
+            secondStarSKView.heightAnchor.constraint(equalTo: secondPageView.heightAnchor, multiplier: 0.25),
+            secondStarSKView.trailingAnchor.constraint(equalTo: secondPageView.trailingAnchor, constant: 10),
+            secondStarSKView.topAnchor.constraint(equalTo: secondPageView.topAnchor, constant: 80)
+        ])
+        
+    }
+    
+    func createSecondPageNumbers() {
+        
+        secondPageView.addSubview(secondPageNumbers)
+        secondPageNumbers.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            secondPageNumbers.centerXAnchor.constraint(equalTo: secondPageView.centerXAnchor),
+            secondPageNumbers.bottomAnchor.constraint(equalTo: secondPageView.bottomAnchor, constant: -15),
+            secondPageNumbers.widthAnchor.constraint(equalTo: secondPageView.widthAnchor, multiplier: 0.1),
+            
+        ])
     }
     
     func createFirstPage() {
@@ -153,6 +360,23 @@ public class CutsceneViewController: UIViewController {
         
     }
     
+    func createGoToNextPageScene() {
+        
+        goToNextPageScene!.scaleMode = .aspectFill
+        goToNextPageScene?.backgroundColor = .clear
+        let fadeIn = SKAction.fadeIn(withDuration: 1.5)
+        let fadeOut = SKAction.fadeOut(withDuration: 1.5)
+        let sequence = SKAction.sequence([fadeIn, fadeOut])
+        let repeatSequence = SKAction.repeatForever(sequence)
+        goToNextPageScene?.run(repeatSequence)
+        
+        goToNextPageView.presentScene(goToNextPageScene)
+        goToNextPageView.backgroundColor = .clear
+        
+        goToNextPageView.translatesAutoresizingMaskIntoConstraints = false
+        
+    }
+    
     func createIntro() {
         
         createTitleToIntro()
@@ -242,8 +466,13 @@ public class CutsceneViewController: UIViewController {
             page += 1
             createFirstPage()
         case 1:
-            //view3.isHidden = true
+            firstPageView.isHidden = true
             page += 1
+            createSecondPage()
+        case 2:
+            secondPageView.isHidden = true
+            page += 1
+            createFinalPage()
         default:
             break;
         }
