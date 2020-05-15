@@ -30,6 +30,13 @@
 		9D5814EA246B584C00D02F47 /* BookCover.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E9246B584C00D02F47 /* BookCover.png */; };
 		9DB738F8246CEB4E00C32342 /* CutsceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */; };
 		9DB738FB246CED1F00C32342 /* Helios Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FA246CED1F00C32342 /* Helios Regular.ttf */; };
+		9DB738FD246DAD1200C32342 /* jd_equinox.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FC246DAD1200C32342 /* jd_equinox.ttf */; };
+		9DB738FF246DFF2C00C32342 /* TapToContinue.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FE246DFF2C00C32342 /* TapToContinue.sks */; };
+		9DB73901246E0F3700C32342 /* FirstPage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB73900246E0F3700C32342 /* FirstPage.sks */; };
+		9DB73903246E219800C32342 /* PlanetScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB73902246E219800C32342 /* PlanetScene.sks */; };
+		9DB73905246E36E400C32342 /* SecondPage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB73904246E36E400C32342 /* SecondPage.sks */; };
+		9DB73907246E3BE200C32342 /* FinalPage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB73906246E3BE200C32342 /* FinalPage.sks */; };
+		9DB73909246E446B00C32342 /* GoToNextPage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB73908246E446B00C32342 /* GoToNextPage.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -158,6 +165,13 @@
 		9D5814E9246B584C00D02F47 /* BookCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BookCover.png; sourceTree = "<group>"; };
 		9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutsceneViewController.swift; sourceTree = "<group>"; };
 		9DB738FA246CED1F00C32342 /* Helios Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helios Regular.ttf"; sourceTree = "<group>"; };
+		9DB738FC246DAD1200C32342 /* jd_equinox.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jd_equinox.ttf; sourceTree = "<group>"; };
+		9DB738FE246DFF2C00C32342 /* TapToContinue.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TapToContinue.sks; sourceTree = "<group>"; };
+		9DB73900246E0F3700C32342 /* FirstPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FirstPage.sks; sourceTree = "<group>"; };
+		9DB73902246E219800C32342 /* PlanetScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = PlanetScene.sks; sourceTree = "<group>"; };
+		9DB73904246E36E400C32342 /* SecondPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SecondPage.sks; sourceTree = "<group>"; };
+		9DB73906246E3BE200C32342 /* FinalPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FinalPage.sks; sourceTree = "<group>"; };
+		9DB73908246E446B00C32342 /* GoToNextPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GoToNextPage.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,11 +359,17 @@
 			children = (
 				9DB738F9246CECF200C32342 /* Fonts */,
 				9D5814E2246B4DEA00D02F47 /* Actions.sks */,
+				9DB73902246E219800C32342 /* PlanetScene.sks */,
 				9D5814E3246B4DEA00D02F47 /* GameScene.sks */,
 				9D5814E9246B584C00D02F47 /* BookCover.png */,
 				5EF2F97E2054B6E400191409 /* ManifestPlist.strings */,
 				5E086DCC2051DDAE004D8D25 /* LiveView.storyboard */,
 				5E551EC42371FC3F00784365 /* Assets.xcassets */,
+				9DB738FE246DFF2C00C32342 /* TapToContinue.sks */,
+				9DB73900246E0F3700C32342 /* FirstPage.sks */,
+				9DB73904246E36E400C32342 /* SecondPage.sks */,
+				9DB73906246E3BE200C32342 /* FinalPage.sks */,
+				9DB73908246E446B00C32342 /* GoToNextPage.sks */,
 			);
 			path = PrivateResources;
 			sourceTree = "<group>";
@@ -367,6 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				9DB738FA246CED1F00C32342 /* Helios Regular.ttf */,
+				9DB738FC246DAD1200C32342 /* jd_equinox.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -500,13 +521,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DB738FD246DAD1200C32342 /* jd_equinox.ttf in Resources */,
 				5EF2F97C2054B6E400191409 /* ManifestPlist.strings in Resources */,
 				9D5814E5246B4DEA00D02F47 /* GameScene.sks in Resources */,
 				9D5814EA246B584C00D02F47 /* BookCover.png in Resources */,
+				9DB73909246E446B00C32342 /* GoToNextPage.sks in Resources */,
 				5E551EC52371FC3F00784365 /* Assets.xcassets in Resources */,
+				9DB738FF246DFF2C00C32342 /* TapToContinue.sks in Resources */,
+				9DB73903246E219800C32342 /* PlanetScene.sks in Resources */,
+				9DB73907246E3BE200C32342 /* FinalPage.sks in Resources */,
 				5E086DCA2051DDAE004D8D25 /* LiveView.storyboard in Resources */,
 				9DB738FB246CED1F00C32342 /* Helios Regular.ttf in Resources */,
 				9D5814E4246B4DEA00D02F47 /* Actions.sks in Resources */,
+				9DB73905246E36E400C32342 /* SecondPage.sks in Resources */,
+				9DB73901246E0F3700C32342 /* FirstPage.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
