@@ -6,11 +6,25 @@
 //
 
 import UIKit
+import SpriteKit
 
 public class CutsceneViewController: UIViewController {
     
-    let intro = UIImageView(image: UIImage(named: "introBackground"))
+    var page = 0
     
+    let intro = UIImageView(image: UIImage(named: "introBackground"))
+    let titleText = UITextField(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    
+    let firstPageView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    let firstPageSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    let firstPageScene = SKScene(fileNamed: "FirstPage")
+    let firstPageNumbers = UIImageView(image: UIImage(named: "numbers1"))
+    let firstPlanetSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+    let firstPlanetScene = SKScene(fileNamed: "PlanetScene")
+    let planetNode = SKSpriteNode(imageNamed: "planet")
+    
+    let tapToContinueView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    let tapToContinueScene = SKScene(fileNamed: "TapToContinue")
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -18,46 +32,161 @@ public class CutsceneViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         view.addGestureRecognizer(tap)
 
+        createTapToContinueScene()
         
         createIntro()
-        createFirstPage()
         
         
     }
     
     func createFirstPage() {
         
+        firstPageView.backgroundColor = .black
+        
+        createFirstPageTexts()
+        
+        createFirstPageNumbers()
+        
+        createFirstPagePlanet()
+
+        firstPageView.addSubview(tapToContinueView)
+        NSLayoutConstraint.activate([
+            tapToContinueView.bottomAnchor.constraint(equalTo: firstPageView.bottomAnchor),
+            tapToContinueView.centerYAnchor.constraint(equalTo: firstPageView.centerYAnchor),
+            tapToContinueView.widthAnchor.constraint(equalTo: firstPageView.widthAnchor, multiplier: 0.2),
+            tapToContinueView.heightAnchor.constraint(equalTo: firstPageView.heightAnchor, multiplier: 0.1),
+            tapToContinueView.trailingAnchor.constraint(equalTo: firstPageView.trailingAnchor)
+        ])
+        
+        
+        view.addSubview(firstPageView)
+        firstPageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            firstPageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            firstPageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            firstPageView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            firstPageView.heightAnchor.constraint(equalTo: view.heightAnchor)
+        ])
+    }
+    
+    func createFirstPagePlanet() {
+        
+        planetNode.position = CGPoint(x: 0, y: 0)
+        planetNode.size = CGSize(width: 70, height: 57)
+        
+        let circle = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 10, height: 10), cornerRadius: 50)
+        let followCircle = SKAction.follow(circle.cgPath, asOffset: false, orientToPath: false, speed: 10.0)
+        let repeatCircle = SKAction.repeatForever(followCircle)
+        planetNode.run(repeatCircle)
+        
+        firstPlanetScene!.addChild(planetNode)
+        firstPlanetScene?.backgroundColor = .clear
+        
+        firstPlanetScene?.size = firstPlanetSKView.frame.size
+        firstPlanetScene!.scaleMode = .aspectFit
+        firstPlanetSKView.presentScene(firstPlanetScene)
+        firstPlanetSKView.backgroundColor = .clear
+        
+        firstPageView.addSubview(firstPlanetSKView)
+        firstPlanetSKView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            firstPlanetSKView.widthAnchor.constraint(equalTo: firstPageView.widthAnchor, multiplier: 0.25),
+            firstPlanetSKView.heightAnchor.constraint(equalTo: firstPageView.heightAnchor, multiplier: 0.25),
+            firstPlanetSKView.trailingAnchor.constraint(equalTo: firstPageView.trailingAnchor, constant: 10),
+            firstPlanetSKView.topAnchor.constraint(equalTo: firstPageView.topAnchor, constant: 80)
+        ])
+        
+
+    }
+    
+    func createFirstPageNumbers() {
+        
+        firstPageView.addSubview(firstPageNumbers)
+        firstPageNumbers.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            firstPageNumbers.centerXAnchor.constraint(equalTo: firstPageView.centerXAnchor),
+            firstPageNumbers.bottomAnchor.constraint(equalTo: firstPageView.bottomAnchor, constant: -15),
+            firstPageNumbers.widthAnchor.constraint(equalTo: firstPageView.widthAnchor, multiplier: 0.1),
+            
+        ])
+        
+    }
+    
+    func createFirstPageTexts() {
+        
+        firstPageScene!.scaleMode = .aspectFit
+        firstPageScene?.backgroundColor = .clear
+        firstPageScene?.alpha = 0.0
+        let appear = SKAction.fadeAlpha(to: 1.0, duration: 3.0)
+        firstPageScene?.run(appear)
+        
+        
+        firstPageSKView.presentScene(firstPageScene)
+        firstPageSKView.backgroundColor = .clear
+        
+        firstPageView.addSubview(firstPageSKView)
+        firstPageSKView.translatesAutoresizingMaskIntoConstraints = false
+        
+        firstPageSKView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            firstPageSKView.centerXAnchor.constraint(equalTo: firstPageView.centerXAnchor),
+            firstPageSKView.widthAnchor.constraint(equalTo: firstPageView.widthAnchor),
+            firstPageSKView.heightAnchor.constraint(equalTo: firstPageView.heightAnchor, multiplier: 0.7),
+            firstPageSKView.topAnchor.constraint(equalTo: firstPageView.topAnchor, constant: 100)
+        ])
+    }
+    
+    func createTapToContinueScene() {
+        
+        tapToContinueScene!.scaleMode = .aspectFill
+        tapToContinueScene?.backgroundColor = .clear
+        let fadeIn = SKAction.fadeIn(withDuration: 1.5)
+        let fadeOut = SKAction.fadeOut(withDuration: 1.5)
+        let sequence = SKAction.sequence([fadeIn, fadeOut])
+        let repeatSequence = SKAction.repeatForever(sequence)
+        tapToContinueScene?.run(repeatSequence)
+        
+        tapToContinueView.presentScene(tapToContinueScene)
+        tapToContinueView.backgroundColor = .clear
+                
+        tapToContinueView.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     func createIntro() {
         
-        //imports custom fonts
-        let cfURL = Bundle.main.url(forResource: "Helios Regular", withExtension: "ttf") as! CFURL
-        CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
-        let titleFont = UIFont(name: "Helios Pro", size:  90.0)
+        createTitleToIntro()
+        
+        createSubTitleToIntro()
+    
+        intro.addSubview(tapToContinueView)
+        
+        NSLayoutConstraint.activate([
+            tapToContinueView.bottomAnchor.constraint(equalTo: intro.bottomAnchor),
+            tapToContinueView.centerYAnchor.constraint(equalTo: intro.centerYAnchor),
+            tapToContinueView.widthAnchor.constraint(equalTo: intro.widthAnchor, multiplier: 0.2),
+            tapToContinueView.heightAnchor.constraint(equalTo: intro.heightAnchor, multiplier: 0.1),
+            tapToContinueView.trailingAnchor.constraint(equalTo: intro.trailingAnchor)
+        ])
+
+        
+        view.addSubview(intro)
+        intro.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            intro.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            intro.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            intro.widthAnchor.constraint(equalTo: view.widthAnchor),
+            intro.heightAnchor.constraint(equalTo: view.heightAnchor)
+        ])
+        
+        
+    }
+    
+    func createSubTitleToIntro() {
         
         let cfURL2 = Bundle.main.url(forResource: "jd_equinox", withExtension: "ttf") as! CFURL
         CTFontManagerRegisterFontsForURL(cfURL2, CTFontManagerScope.process, nil)
         let subtitleFont = UIFont(name: "JD Equinox", size:  60.0)
-        
-        //creates and adds title
-        let title = UITextField(frame: intro.frame)
-        title.text = "PATH FINDING ALGORITHMS"
-        title.adjustsFontSizeToFitWidth = true
-        title.textColor = .white
-        title.backgroundColor = .clear
-        title.textAlignment = .center
-        title.font = titleFont
-        
-        
-        intro.addSubview(title)
-        title.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            title.centerXAnchor.constraint(equalTo: intro.centerXAnchor),
-            title.centerYAnchor.constraint(equalTo: intro.centerYAnchor),
-            title.widthAnchor.constraint(equalTo: intro.widthAnchor, multiplier: 0.9),
-            title.heightAnchor.constraint(equalTo: intro.heightAnchor, multiplier: 0.15)
-        ])
         
         //creates and adds subtitle
         let subtitle = UITextField(frame: intro.frame)
@@ -72,160 +201,56 @@ public class CutsceneViewController: UIViewController {
         subtitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             subtitle.centerXAnchor.constraint(equalTo: intro.centerXAnchor),
-            subtitle.centerYAnchor.constraint(equalTo: title.centerYAnchor, constant: 100),
+            subtitle.centerYAnchor.constraint(equalTo: titleText.centerYAnchor, constant: 100),
             subtitle.widthAnchor.constraint(equalTo: intro.widthAnchor, multiplier: 0.9),
             subtitle.heightAnchor.constraint(equalTo: intro.heightAnchor, multiplier: 0.15)
         ])
         
+    }
+    
+    func createTitleToIntro() {
+        //imports custom fonts
+        let cfURL = Bundle.main.url(forResource: "Helios Regular", withExtension: "ttf") as! CFURL
+        CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
+        let titleFont = UIFont(name: "Helios Pro", size:  90.0)
         
-        //creates and adds the view containing the title, subtitle and background
-        view.addSubview(intro)
-        intro.translatesAutoresizingMaskIntoConstraints = false
+        //creates and adds title
+        titleText.text = "PATH FINDING ALGORITHMS"
+        titleText.adjustsFontSizeToFitWidth = true
+        titleText.textColor = .white
+        titleText.backgroundColor = .clear
+        titleText.textAlignment = .center
+        titleText.font = titleFont
+        
+        
+        intro.addSubview(titleText)
+        titleText.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            intro.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            intro.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            intro.widthAnchor.constraint(equalTo: view.widthAnchor),
-            intro.heightAnchor.constraint(equalTo: view.heightAnchor)
+            titleText.centerXAnchor.constraint(equalTo: intro.centerXAnchor),
+            titleText.centerYAnchor.constraint(equalTo: intro.centerYAnchor),
+            titleText.widthAnchor.constraint(equalTo: intro.widthAnchor, multiplier: 0.9),
+            titleText.heightAnchor.constraint(equalTo: intro.heightAnchor, multiplier: 0.15)
         ])
-        
     }
     
     
-    
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        /*
+        
         switch (page) {
         case 0:
-            view4.isHidden = true
+            intro.isHidden = true
             page += 1
+            createFirstPage()
         case 1:
-            view3.isHidden = true
-            page += 1
-        case 2:
-            view2.isHidden = true
-            page += 1
-        case 3:
-            view1.isHidden = true
+            //view3.isHidden = true
             page += 1
         default:
             break;
         }
-         */
+         
         
     }
 
 }
 
-/*
 
- //let view2 = UIView(frame: view.frame)
- //view2.backgroundColor = .red
-
- view.addSubview(view0)
- view.addSubview(view1)
- view.addSubview(view2)
- view.addSubview(view3)
- view.addSubview(view4)
- //view.addSubview(view2)
- 
- view0.translatesAutoresizingMaskIntoConstraints = false
-
- NSLayoutConstraint.activate([
-     view0.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-     view0.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-     view0.widthAnchor.constraint(equalTo: view.widthAnchor),
-     view0.heightAnchor.constraint(equalTo: view.heightAnchor)
- ])
-
- view1.translatesAutoresizingMaskIntoConstraints = false
-
- NSLayoutConstraint.activate([
-     view1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-     view1.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-     view1.widthAnchor.constraint(equalTo: view.widthAnchor),
-     view1.heightAnchor.constraint(equalTo: view.heightAnchor)
- ])
- 
- view2.translatesAutoresizingMaskIntoConstraints = false
-
- NSLayoutConstraint.activate([
-     view2.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-     view2.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-     view2.widthAnchor.constraint(equalTo: view.widthAnchor),
-     view2.heightAnchor.constraint(equalTo: view.heightAnchor)
- ])
- 
- view3.translatesAutoresizingMaskIntoConstraints = false
-
- NSLayoutConstraint.activate([
-     view3.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-     view3.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-     view3.widthAnchor.constraint(equalTo: view.widthAnchor),
-     view3.heightAnchor.constraint(equalTo: view.heightAnchor)
- ])
- 
- view4.translatesAutoresizingMaskIntoConstraints = false
-
- NSLayoutConstraint.activate([
-     view4.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-     view4.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-     view4.widthAnchor.constraint(equalTo: view.widthAnchor),
-     view4.heightAnchor.constraint(equalTo: view.heightAnchor)
- ])
- */
-
-
-//
-//public class CutsceneViewController: UIViewController {
-//
-//    override public func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//       let titleURL = Bundle.main.url(forResource: "Helios Regular", withExtension: "ttf")
-//        CTFontManagerRegisterFontsForURL(titleURL! as CFURL, CTFontManagerScope.process, nil)
-//        //let font1 = UIFont(name: "Helios Regular", size: 50)!
-//
-//        setFirstPage()
-//
-//
-//        //let view2 = UIView(frame: view.frame)
-//        //view2.backgroundColor = .red
-//
-//    }
-//
-//    func setFirstPage() {
-//        let title = UITextView(frame: view.frame)
-//        title.font = UIFont(name: "Helios Regular", size: 50)
-//
-//        view.addSubview(title)
-//
-//       title.translatesAutoresizingMaskIntoConstraints = false
-//
-//        let textView = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: 250.0, height: 100.0))
-//        self.automaticallyAdjustsScrollViewInsets = false
-//
-//        textView.center = self.view.center
-//        textView.textAlignment = NSTextAlignment.justified
-//        textView.textColor = UIColor.blue
-//        textView.backgroundColor = UIColor.lightGray
-//
-//
-//        view.addSubview(textView)
-//
-//
-//        let view1 = UIView(frame: view.frame)
-//        view1.backgroundColor = .green
-//
-//        view1.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            view1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            view1.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//            view1.widthAnchor.constraint(equalTo: view.widthAnchor),
-//            view1.heightAnchor.constraint(equalTo: view.heightAnchor)
-//        ])
-//
-//        view.addSubview(view1)
-//    }
-//
-//
-//}
