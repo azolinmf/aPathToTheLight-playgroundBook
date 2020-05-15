@@ -10,13 +10,11 @@ import SpriteKit
 import UIKit
 
 
-public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
+public class GameScene: SKScene {
         
     
     //map and general app variables
     var tileArray: [[Tile]] = [[Tile]]()
-    let startButton = SKSpriteNode(imageNamed: "start")
-    let clearButton = SKSpriteNode(imageNamed: "clear")
     var posX = 0
     var posY = 0
     var marginX = 42
@@ -24,7 +22,16 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
     let rows = 19
     let columns = 15
     let nodeSize = 30
-    let algorithmsPickerOptions = ["A*", "Dijkstra", "Breadth-first"]
+    
+    //interactable
+    let startButton = SKSpriteNode(imageNamed: "startButton")
+    let clearButton = SKSpriteNode(imageNamed: "clearButton")
+    let aStarButton = SKSpriteNode(imageNamed: "leverDown")
+    let dButton = SKSpriteNode(imageNamed: "leverUp")
+    let bfsButton = SKSpriteNode(imageNamed: "leverUp")
+    let upSpeedButton = SKSpriteNode(imageNamed: "up")
+    let downSpeedButton = SKSpriteNode(imageNamed: "down")
+    let speedPanel = SKSpriteNode(imageNamed: "speed1")
     
     //all searches variables
     var playerPos = CGPoint(x: 5, y: 10)
@@ -54,6 +61,9 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
     var shouldDraw = false
     var shouldPaint = false
     var drawingSpeed = 0.2
+    var drawingSpeed1 = 0.2
+    var drawingSpeed2 = 0.10
+    var drawingSpeed3 = 0.05
     var timer : Timer? = Timer()
     var nodeInitialOpacity = CGFloat(1.0)
     var nodeVisitedOpacity = CGFloat(0.0)
@@ -94,24 +104,59 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         
         createButtons()
         
-        createPickerView()
     }
     
     func createButtons() {
         
-        startButton.position = CGPoint(x: 425, y: 720)
+        startButton.position = CGPoint(x: 320, y: 720)
         startButton.zPosition = 1
-        startButton.size = CGSize(width: 112.0, height: 36.0)
         startButton.name = "startButton"
         startButton.isUserInteractionEnabled = false
         self.addChild(startButton)
         
-        clearButton.position = CGPoint(x: 280, y: 720)
+        clearButton.position = CGPoint(x: 340, y: 675)
         clearButton.zPosition = 1
-        clearButton.size = CGSize(width: 82.0, height: 34.0)
         clearButton.name = "clearButton"
         clearButton.isUserInteractionEnabled = false
         self.addChild(clearButton)
+
+        aStarButton.position = CGPoint(x: 90, y: 711)
+        aStarButton.zPosition = 1
+        aStarButton.name = "aStarButton"
+        aStarButton.isUserInteractionEnabled = false
+        self.addChild(aStarButton)
+        
+        dButton.position = CGPoint(x: 160, y: 715)
+        dButton.zPosition = 1
+        dButton.name = "dButton"
+        dButton.isUserInteractionEnabled = false
+        self.addChild(dButton)
+        
+        bfsButton.position = CGPoint(x: 230, y: 715)
+        bfsButton.zPosition = 1
+        bfsButton.name = "bfsButton"
+        bfsButton.isUserInteractionEnabled = false
+        self.addChild(bfsButton)
+        
+        speedPanel.position = CGPoint(x: 420, y: 720)
+        speedPanel.zPosition = 1
+        speedPanel.name = "speedPanel"
+        speedPanel.isUserInteractionEnabled = false
+        self.addChild(speedPanel)
+        
+        upSpeedButton.position = CGPoint(x: 404, y: 689)
+        upSpeedButton.zPosition = 1
+        upSpeedButton.name = "upSpeedButton"
+        upSpeedButton.isUserInteractionEnabled = false
+        self.addChild(upSpeedButton)
+        
+        downSpeedButton.position = CGPoint(x: 434, y: 689)
+        downSpeedButton.zPosition = 1
+        downSpeedButton.name = "downSpeedButton"
+        downSpeedButton.isUserInteractionEnabled = false
+        self.addChild(downSpeedButton)
+        
+        
         
     }
     
@@ -189,6 +234,21 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         if clearButton.contains(pos){
             resetSearchVariables()
         }
+        else if aStarButton.contains(pos) {
+            handleTapOnAStar()
+        }
+        else if dButton.contains(pos) {
+            handleTapOnD()
+        }
+        else if bfsButton.contains(pos) {
+            handleTapOnBFS()
+        }
+        else if upSpeedButton.contains(pos) {
+            handleTapOnUpSpeed()
+        }
+        else if downSpeedButton.contains(pos) {
+            handleTapOnDownSpeed()
+        }
         else if startButton.contains(pos) {
             //resetSearchVariables()
             if !alreadyFoundTarget {
@@ -199,7 +259,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
                 case "Dijkstra" :
                     _ = self.dijkstra()
                 case "Breadth-first" :
-                    _ = self.dijkstra()
+                    _ = self.breadthFirst()
                 default:
                     _ = aStar()
                 }
@@ -209,6 +269,112 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
             }
             
         }
+        
+    }
+    
+    func handleTapOnDownSpeed() {
+        if drawingSpeed == drawingSpeed3 {
+            drawingSpeed = drawingSpeed2
+            speedPanel.texture = SKTexture(imageNamed: "speed2")
+        } else if drawingSpeed == drawingSpeed2 {
+            drawingSpeed = drawingSpeed1
+            speedPanel.texture = SKTexture(imageNamed: "speed1")
+        }
+    }
+    
+    func handleTapOnUpSpeed() {
+        
+        if drawingSpeed == drawingSpeed1 {
+            drawingSpeed = drawingSpeed2
+            speedPanel.texture = SKTexture(imageNamed: "speed2")
+        } else if drawingSpeed == drawingSpeed2 {
+            drawingSpeed = drawingSpeed3
+            speedPanel.texture = SKTexture(imageNamed: "speed3")
+        }
+        
+    }
+    
+    func handleTapOnBFS() {
+        if algorithm == "Breadth-first" {
+            algorithm = "A*"
+            
+            bfsButton.texture = SKTexture(imageNamed: "leverUp")
+            bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y + 4)
+            
+            aStarButton.texture = SKTexture(imageNamed: "leverDown")
+            aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y - 4)
+        } else {
+            
+            bfsButton.texture = SKTexture(imageNamed: "leverDown")
+            bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y - 4)
+            
+            if algorithm == "A*" {
+                aStarButton.texture = SKTexture(imageNamed: "leverUp")
+                aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y + 4)
+                
+            } else if algorithm == "Dijkstra" {
+                dButton.texture = SKTexture(imageNamed: "leverUp")
+                dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y + 4)
+            }
+            
+            algorithm = "Breadth-first"
+        }
+    }
+    
+    func handleTapOnD() {
+        if algorithm == "Dijkstra" {
+            algorithm = "Breadth-first"
+            
+            dButton.texture = SKTexture(imageNamed: "leverUp")
+            dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y + 4)
+            
+            bfsButton.texture = SKTexture(imageNamed: "leverDown")
+            bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y - 4)
+        } else {
+            
+            dButton.texture = SKTexture(imageNamed: "leverDown")
+            dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y - 4)
+            
+            if algorithm == "A*" {
+                aStarButton.texture = SKTexture(imageNamed: "leverUp")
+                aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y + 4)
+                
+            } else if algorithm == "Breadth-first" {
+                bfsButton.texture = SKTexture(imageNamed: "leverUp")
+                bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y + 4)
+            }
+            
+            algorithm = "Dijkstra"
+        }
+    }
+    
+    func handleTapOnAStar() {
+        
+        if algorithm == "A*" {
+            algorithm = "Dijkstra"
+            
+            aStarButton.texture = SKTexture(imageNamed: "leverUp")
+            aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y + 4)
+            
+            dButton.texture = SKTexture(imageNamed: "leverDown")
+            dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y - 4)
+        } else {
+            
+            aStarButton.texture = SKTexture(imageNamed: "leverDown")
+            aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y - 4)
+            
+            if algorithm == "Dijkstra" {
+                dButton.texture = SKTexture(imageNamed: "leverUp")
+                dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y + 4)
+                
+            } else if algorithm == "Breadth-first" {
+                bfsButton.texture = SKTexture(imageNamed: "leverUp")
+                bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y + 4)
+            }
+            
+            algorithm = "A*"
+        }
+        
         
     }
     
@@ -656,44 +822,7 @@ public class GameScene: SKScene, UIPickerViewDelegate, UIPickerViewDataSource {
         }
         
     }
-    
-    
-    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return algorithmsPickerOptions.count
-    }
-    
-    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return algorithmsPickerOptions[row]
-    }
-    
-    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        algorithm = algorithmsPickerOptions[row]
-    }
-    
-    func createPickerView() {
-        guard let view = view else { return }
-        
-        let myPickerView  : UIPickerView = UIPickerView()
-        myPickerView.dataSource = self
-        myPickerView.delegate = self
-        myPickerView.setValue(UIColor.white, forKey: "textColor")
-        
-        view.addSubview(myPickerView)
-        
-        myPickerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            myPickerView.topAnchor.constraint(equalTo: view.topAnchor, constant: -60),
-            myPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 75),
-            myPickerView.widthAnchor.constraint(equalToConstant: 150)
-        ])
-        
-        
-    }
+
     
 }
 
