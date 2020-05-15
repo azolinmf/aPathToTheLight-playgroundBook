@@ -82,8 +82,7 @@ public class GameScene: SKScene {
 //        debug.position = CGPoint(x: 50, y: 50)
 //        self.addChild(debug)
         
-        //to disable interaction and touches:
-        //self.view?.isUserInteractionEnabled = false
+        
         
         self.addChild(movablePlayer)
         self.addChild(movableStar)
@@ -253,6 +252,40 @@ public class GameScene: SKScene {
         return sqrt(pow((x1-x2), 2) + pow((y1-y2), 2))
     }
     
+    func autoClear() {
+        //when the user plays again whitout first clearing the map
+        
+        for column in 0...tileArray.count-1 {
+            for row in 0...tileArray[0].count-1 {
+                if !tileArray[column][row].isObstacle {
+                    tileArray[column][row].alreadyVisitedNode = false
+                    tileArray[column][row].fCost = 999.0
+                    tileArray[column][row].gCost = 0.0
+                    tileArray[column][row].hCost = 0.0
+                    tileArray[column][row].currentTile = false
+                    tileArray[column][row].isOnOpenList = false
+                    tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
+                    tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
+                    tileArray[column][row].tile.alpha = nodeInitialOpacity
+                    tileArray[column][row].isObstacle = false
+                    tileArray[column][row].parentId = 0
+                }
+                
+            }
+        }
+        
+        unexploredList.removeAll()
+        closedList.removeAll()
+        openList.removeAll()
+        
+        setPlayerAndTarget()
+        
+        alreadyFoundTarget = false
+        
+        pathIdList.removeAll()
+        paintIdList.removeAll()
+    }
+    
     func touchDown(atPoint pos : CGPoint) {
         
         if clearButton.contains(pos){
@@ -274,8 +307,13 @@ public class GameScene: SKScene {
             handleTapOnDownSpeed()
         }
         else if startButton.contains(pos) {
-            //resetSearchVariables()
+            
+            if alreadyFoundTarget {
+                autoClear()
+            }
             if !alreadyFoundTarget {
+                
+                disableUserInteraction(shouldDisable: true)
                 
                 switch algorithm {
                 case "A*" :
@@ -877,6 +915,10 @@ public class GameScene: SKScene {
 
     }
     
+    func disableUserInteraction(shouldDisable: Bool) {
+        self.view?.isUserInteractionEnabled = !shouldDisable
+    }
+    
     @objc func paintPath() {
         
         let id = pathIdList.first
@@ -891,6 +933,9 @@ public class GameScene: SKScene {
         } else {
             tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.texture = SKTexture(imageNamed: "planet")
             tileArray[Int(playerPos.x)][Int(playerPos.y)].tile.zPosition = 3
+            
+            disableUserInteraction(shouldDisable: false)
+            
             if timer != nil {
                 timer!.invalidate()
                 timer = nil
