@@ -46,6 +46,7 @@ public class GameScene: SKScene {
     var movingTarget = false
     var movableNode : SKNode?
     var movablePlayer = SKSpriteNode(imageNamed: "planet")
+    var movableStar = SKSpriteNode(imageNamed: "star")
     
     //A* variables
     var lowestCostId = 0
@@ -78,13 +79,14 @@ public class GameScene: SKScene {
         
         self.anchorPoint = CGPoint(x: 0, y: 0)
         
-        debug.position = CGPoint(x: 50, y: 50)
-        self.addChild(debug)
+//        debug.position = CGPoint(x: 50, y: 50)
+//        self.addChild(debug)
         
         //to disable interaction and touches:
         //self.view?.isUserInteractionEnabled = false
         
         self.addChild(movablePlayer)
+        self.addChild(movableStar)
         
         var id = 0
         for column in 0...columns-1 {
@@ -240,6 +242,10 @@ public class GameScene: SKScene {
         movablePlayer.size = CGSize(width: 45, height: 36.8)
         movablePlayer.position = CGPoint(x: 150, y: 120)
         movablePlayer.isHidden = true
+        
+        movableStar.size = CGSize(width: 60, height: 60)
+        movableStar.position = CGPoint(x: 150, y: 120)
+        movableStar.isHidden = true
         
     }
     
@@ -422,22 +428,14 @@ public class GameScene: SKScene {
                             //if it's moving the player
                             
                             movingPlayer = true
-                            //debug.text = String(movingPlayer)
-                            
                             tileArray[column][row].tile.isHidden = true
-//                            tileArray[column][row].isPlayer = false
-//                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
-//                            tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
-//                            tileArray[column][row].tile.alpha = nodeInitialOpacity
+
                         }
                         if (row == Int(targetPos.y) && column == Int(targetPos.x)) {
                             //if it's moving the target
                             movingTarget = true
-                            tileArray[column][row].isTarget = false
-                            tileArray[column][row].tile.removeAllActions()
-                            tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
-                            tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
-                            tileArray[column][row].tile.alpha = nodeInitialOpacity
+                            tileArray[column][row].tile.isHidden = true
+                            
                         }
                     }
                 }
@@ -775,9 +773,19 @@ public class GameScene: SKScene {
         }
         
         if movingTarget {
+            movingTarget = false
             for column in 0...tileArray.count-1 {
                 for row in 0...tileArray[0].count-1 {
                     if tileArray[column][row].tile.contains(pos) {
+                        
+                        tileArray[Int(targetPos.x)][Int(targetPos.y)].isTarget = false
+                        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.removeAllActions()
+                        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.texture = SKTexture(imageNamed: "nebula")
+                        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.size = CGSize(width: nodeSize, height: nodeSize)
+                        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.alpha = nodeInitialOpacity
+                        tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.isHidden = false
+                        
+                        tileArray[column][row].tile.isHidden = false
                         tileArray[column][row].tile.texture  = SKTexture(imageNamed: "star")
                         tileArray[column][row].tile.size = CGSize(width: 60, height: 42.4)
                         tileArray[column][row].tile.alpha = 1.0
@@ -786,11 +794,16 @@ public class GameScene: SKScene {
                         targetPos.x = CGFloat(column)
                         targetPos.y = CGFloat(row)
                         targetId = posToId(pos: Pos(column, row))
+                        
+                        movableStar.position = targetPos
+                        
+                        return
                     }
                     
                 }
             }
-            movingTarget = false
+            tileArray[Int(targetPos.x)][Int(targetPos.y)].tile.isHidden = false
+            
         }
         
     }
@@ -809,6 +822,15 @@ public class GameScene: SKScene {
                     
                         movablePlayer.isHidden = false
                         movableNode = movablePlayer
+                        
+                        movableNode!.position = location
+                        
+                    }
+                    
+                    if tileArray[column][row].tile.contains(location) && tileArray[column][row].isTarget {
+                    
+                        movableStar.isHidden = false
+                        movableNode = movableStar
                         
                         movableNode!.position = location
                         
@@ -837,6 +859,7 @@ public class GameScene: SKScene {
             movableNode!.position = touch.location(in: self)
             movableNode = nil
             movablePlayer.isHidden = true
+            movableStar.isHidden = true
         }
         
     }
