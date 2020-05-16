@@ -74,6 +74,10 @@ public class GameScene: SKScene {
     var nodeInitialOpacity = CGFloat(1.0)
     var nodeVisitedOpacity = CGFloat(0.0)
     
+    var hintControl = 0
+    var movedPlayerOrTarget = false
+    var placedObstacles = false
+    
     
     override public func didMove(to view: SKView) {
         
@@ -315,6 +319,8 @@ public class GameScene: SKScene {
             handleTapOnDownSpeed()
         }
         else if startButton.contains(pos) {
+            hintControl += 1
+            checkHintControl()
             
             if alreadyFoundTarget {
                 autoClear()
@@ -344,6 +350,24 @@ public class GameScene: SKScene {
 //        }
         
     }
+    
+    func checkHintControl() {
+        //numeros completamente arbitrarios fodac o codigo eh meu
+        
+        if hintControl == 1 {
+            //PlaygroundPage.current.assessmentStatus = .pass(message: "Oiii")
+            //PlaygroundPage.current.assessmentStatus = .fail(hints: ["How about trying another method? Pick a different algorithm."], solution: nil)
+            
+            PlaygroundPage.current.assessmentStatus = .pass(message: "How about trying another method? Pick a different algorithm.")
+        }
+        if hintControl == 3 && !placedObstacles {
+            PlaygroundPage.current.assessmentStatus = .pass(message: "Try adding obstacles! Touch and swipe on the map to place them.")
+        }
+        if hintControl == 4 && !movedPlayerOrTarget {
+            PlaygroundPage.current.assessmentStatus = .pass(message: "Let's make this more interesting! Drag and drop to change the planet and target positions.")
+        }
+    }
+    
     
     func handleCleanObstacleAtPos(pos: CGPoint) {
         let posId = posToId(pos: Pos(Int(pos.x), Int(pos.y)))
@@ -482,6 +506,8 @@ public class GameScene: SKScene {
                             tileArray[column][row].isObstacle = true
                             
                             animateObstacleAtPos(column: column, row: row)
+                            
+                            placedObstacles = true
                         }
                     }
                 }
@@ -492,13 +518,13 @@ public class GameScene: SKScene {
                             
                             movingPlayer = true
                             tileArray[column][row].tile.isHidden = true
-
+                            movedPlayerOrTarget = true
                         }
                         if (row == Int(targetPos.y) && column == Int(targetPos.x)) {
                             //if it's moving the target
                             movingTarget = true
                             tileArray[column][row].tile.isHidden = true
-                            
+                            movedPlayerOrTarget = true
                         }
                     }
                 }
@@ -935,7 +961,7 @@ public class GameScene: SKScene {
     }
     
     override public func update(_ currentTime: TimeInterval) {
-
+        
     }
     
     func disableUserInteraction(shouldDisable: Bool) {

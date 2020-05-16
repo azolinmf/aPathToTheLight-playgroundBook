@@ -24,7 +24,7 @@ Pick an algorithm and see how it develops its solution.
 \
 \
 Try placing obstacles along the way to see what happens.
-
+You can also move the planet and the target.
 
 ## Explore and have a fun experience!
 
