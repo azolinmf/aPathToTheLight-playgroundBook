@@ -2,10 +2,10 @@
  
  # Path Finding Algorithms
  
- How could a lost planet, searching for the bright of the stars, chase them more efficiently? Well, in programming, we have some tricks that could help in this task.
+ How could a lost planet, searching for the bright of the stars, chase them more efficiently? Well, in computer science, we have some tricks that could help in this task.
 
  
- We call these tricks **Search Algorithms**. Leading from one point to another, they can show us different paths that drive to the target.
+ We call these tricks **[Search Algorithms](glossary://algorithm)**. Leading from one point to another, they can show us different paths that drive to the target.
 
 * Note: **BFS** algorithm explores equally in all directions. It will always find the solution if it exists, but it usually takes long.
  \
@@ -13,17 +13,17 @@
 **Dijkstra** algorithm also always reach the goal, but it allows to priorize some paths over others.
  \
  \
-**A-star** algorithm uses heuristics to know precisely the distance to the target, and for that it is usually faster and always trace the best path possible.
+**A-star** algorithm is [optimal](glossary://optimal), and uses heuristics to know precisely the distance to the target, therefore it is usually faster and always trace the best path possible.
 
 ![BFS, Dijskstra and A-star?](algorithms.pdf)
  
 # So, which one is the best?
  
-There is no absolute answer. Each case is different.
+There is no absolute answer. [Complete algorithms](glossary://complete) like **BFS**, **Dijkstra** and **A-star** always find the target, but each case is different.
 Pick an algorithm and see how it develops its solution.
-\
-\
-Try placing obstacles along the way to see what happens.
+
+* Experiment: Try placing obstacles along the way to see what happens.
+ \
 You can also move the planet and the target.
 
 ## Explore and have a fun experience!
