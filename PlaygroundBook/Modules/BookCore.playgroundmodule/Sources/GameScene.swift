@@ -22,6 +22,8 @@ public class GameScene: SKScene {
     let rows = 19
     let columns = 15
     let nodeSize = 30
+    var mapSize = 0
+    var iterations = 0
     
     //interactable
     let startButton = SKSpriteNode(imageNamed: "startButton")
@@ -77,6 +79,8 @@ public class GameScene: SKScene {
     var hintControl = 0
     var movedPlayerOrTarget = false
     var placedObstacles = false
+    var impossiblePath = false
+    var changedAlgorithm = false
     
     
     override public func didMove(to view: SKView) {
@@ -115,6 +119,7 @@ public class GameScene: SKScene {
         setPlayerAndTarget()
         createButtons()
         
+        mapSize = columns*rows
     }
     
     func createButtons() {
@@ -188,6 +193,9 @@ public class GameScene: SKScene {
                 tileArray[column][row].parentId = 0
             }
         }
+        
+        iterations = 0
+        impossiblePath = false
         
         unexploredList.removeAll()
         closedList.removeAll()
@@ -271,6 +279,8 @@ public class GameScene: SKScene {
             }
         }
         
+        iterations = 0
+        
         unexploredList.removeAll()
         closedList.removeAll()
         openList.removeAll()
@@ -300,16 +310,19 @@ public class GameScene: SKScene {
     
     func touchDown(atPoint pos : CGPoint) {
         
-        if clearButton.contains(pos){
+        if clearButton.contains(pos) {
             resetSearchVariables()
         }
         else if aStarButton.contains(pos) {
+            changedAlgorithm = true
             handleTapOnAStar()
         }
         else if dButton.contains(pos) {
+            changedAlgorithm = true
             handleTapOnD()
         }
         else if bfsButton.contains(pos) {
+            changedAlgorithm = true
             handleTapOnBFS()
         }
         else if upSpeedButton.contains(pos) {
@@ -328,20 +341,32 @@ public class GameScene: SKScene {
             if !alreadyFoundTarget {
                 
                 disableUserInteraction(shouldDisable: true)
-                
+                var success = true
                 switch algorithm {
                 case "A*" :
-                    _ = self.aStar()
+                    success = self.aStar()
                 case "Dijkstra" :
-                    _ = self.dijkstra()
+                    success = self.dijkstra()
                 case "Breadth-first" :
-                    _ = self.breadthFirst()
+                    success = self.breadthFirst()
                 default:
-                    _ = aStar()
+                    success = aStar()
                 }
-                createDrawPathList()
                 
-                timer = Timer.scheduledTimer(timeInterval: drawingSpeed, target: self, selector: #selector(GameScene.paintVisitedTile), userInfo: nil, repeats: true)
+                //if the parente id from the taregt is 0, it transversed the map
+                let searchSuccess = tileArray[Int(targetPos.x)][Int(targetPos.y)].parentId
+                
+                if !success || searchSuccess == 0 {
+                    impossiblePath = true
+                    disableUserInteraction(shouldDisable: false)
+                    autoClear()
+                    checkHintControl()
+                } else { //deu bom a busca
+                    createDrawPathList()
+                    
+                    timer = Timer.scheduledTimer(timeInterval: drawingSpeed, target: self, selector: #selector(GameScene.paintVisitedTile), userInfo: nil, repeats: true)
+                }
+                
             }
             
         }
@@ -354,18 +379,24 @@ public class GameScene: SKScene {
     func checkHintControl() {
         //numeros completamente arbitrarios fodac o codigo eh meu
         
-        if hintControl == 1 {
-            //PlaygroundPage.current.assessmentStatus = .pass(message: "Oiii")
-            //PlaygroundPage.current.assessmentStatus = .fail(hints: ["How about trying another method? Pick a different algorithm."], solution: nil)
-            
-            PlaygroundPage.current.assessmentStatus = .pass(message: "How about trying another method? Pick a different algorithm.")
+        if impossiblePath {
+            PlaygroundPage.current.assessmentStatus = .pass(message: "It's impossible to reach the shine of the stars like this! Clear the obstacles and try another configuration.")
+            return
         }
-        if hintControl == 3 && !placedObstacles {
+        
+        if hintControl == 4 && !placedObstacles {
             PlaygroundPage.current.assessmentStatus = .pass(message: "Try adding obstacles! Touch and swipe on the map to place them.")
         }
-        if hintControl == 4 && !movedPlayerOrTarget {
+        if hintControl == 3 && !movedPlayerOrTarget {
             PlaygroundPage.current.assessmentStatus = .pass(message: "Let's make this more interesting! Drag and drop to change the planet and target positions.")
         }
+        
+        if hintControl >= 5 && !changedAlgorithm {
+            PlaygroundPage.current.assessmentStatus = .pass(message: "How about trying another method? Pick a different algorithm.")
+            //PlaygroundPage.current.assessmentStatus = .pass(message: "Oiii")
+            //PlaygroundPage.current.assessmentStatus = .fail(hints: ["How about trying another method? Pick a different algorithm."], solution: nil)
+        }
+        
     }
     
     
@@ -552,7 +583,6 @@ public class GameScene: SKScene {
             
             if currSquare.isTarget {
                 //achou
-                
                 alreadyFoundTarget = true
                 targetId = currSquare.id
 
@@ -563,6 +593,7 @@ public class GameScene: SKScene {
             if unexploredList.count > 0 {
                 unexploredList.removeLast()
             } else {
+                impossiblePath = true
                 return false
             }
             
@@ -629,10 +660,8 @@ public class GameScene: SKScene {
             
             if currSquare.isTarget {
                 //achou
-                
                 alreadyFoundTarget = true
                 targetId = currSquare.id
-                
                 return true
             }
             
@@ -640,6 +669,7 @@ public class GameScene: SKScene {
             if unexploredList.count > 0 {
                 unexploredList.removeLast()
             } else {
+                impossiblePath = true
                 return false
             }
             
@@ -663,7 +693,6 @@ public class GameScene: SKScene {
                                 if !paintIdList.contains(nextCandidate.id){
                                     paintIdList.append(nextCandidate.id)
                                 }
-                                
                                 
                                 //calculate a potential new distance
                                 //current node’s distance plus the distance to the adjacent node you are at
@@ -689,14 +718,6 @@ public class GameScene: SKScene {
         
         return true
         
-    }
-    
-    func copyTileArrayToUnexploredList() {
-        for column in 0...tileArray.count-1 {
-            for row in 0...tileArray[0].count-1 {
-                unexploredList.append(tileArray[column][row])
-            }
-        }
     }
     
     func aStar() -> Bool {
@@ -740,6 +761,8 @@ public class GameScene: SKScene {
             //for each of the 8 squares adjacent to this current square...
             for offsetY in -1...1 {
                 for offsetX in -1...1 {
+                    iterations += 1
+                    
                     let row = Int(currentSquarePos.y) + offsetY
                     let column = Int(currentSquarePos.x) + offsetX
                     
@@ -800,8 +823,22 @@ public class GameScene: SKScene {
                     }
                 }
             }
+            
+            if iterations >= mapSize {
+                impossiblePath = true
+                return false
+            }
+            
         }
         return true
+    }
+    
+    func copyTileArrayToUnexploredList() {
+        for column in 0...tileArray.count-1 {
+            for row in 0...tileArray[0].count-1 {
+                unexploredList.append(tileArray[column][row])
+            }
+        }
     }
     
     func createDrawPathList() {
@@ -905,7 +942,6 @@ public class GameScene: SKScene {
             
             for column in 0...tileArray.count-1 {
                 for row in 0...tileArray[0].count-1 {
-                    debug.text = String(movingPlayer)
                     
                     if tileArray[column][row].tile.contains(location) && tileArray[column][row].isPlayer {
                     
