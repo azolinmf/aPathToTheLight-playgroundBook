@@ -20,7 +20,7 @@ public class GameScene: SKScene {
     var posY = 0
     var marginX = 42
     var marginY = 75
-    let rows = 19
+    let rows = 18
     let columns = 15
     let nodeSize = 30
     var mapSize = 0
@@ -128,49 +128,49 @@ public class GameScene: SKScene {
     
     func createButtons() {
         
-        startButton.position = CGPoint(x: 412, y: 716)
+        startButton.position = CGPoint(x: 412, y: 686)
         startButton.zPosition = 1
         startButton.name = "startButton"
         startButton.isUserInteractionEnabled = false
         self.addChild(startButton)
         
-        clearButton.position = CGPoint(x: 433, y: 671)
+        clearButton.position = CGPoint(x: 433, y: 641)
         clearButton.zPosition = 1
         clearButton.name = "clearButton"
         clearButton.isUserInteractionEnabled = false
         self.addChild(clearButton)
 
-        aStarButton.position = CGPoint(x: 178, y: 707)
+        aStarButton.position = CGPoint(x: 178, y: 677)
         aStarButton.zPosition = 1
         aStarButton.name = "aStarButton"
         aStarButton.isUserInteractionEnabled = false
         self.addChild(aStarButton)
         
-        dButton.position = CGPoint(x: 250, y: 711)
+        dButton.position = CGPoint(x: 250, y: 681)
         dButton.zPosition = 1
         dButton.name = "dButton"
         dButton.isUserInteractionEnabled = false
         self.addChild(dButton)
         
-        bfsButton.position = CGPoint(x: 318, y: 711)
+        bfsButton.position = CGPoint(x: 318, y: 681)
         bfsButton.zPosition = 1
         bfsButton.name = "bfsButton"
         bfsButton.isUserInteractionEnabled = false
         self.addChild(bfsButton)
         
-        speedPanel.position = CGPoint(x: 85, y: 707)
+        speedPanel.position = CGPoint(x: 85, y: 677)
         speedPanel.zPosition = 1
         speedPanel.name = "speedPanel"
         speedPanel.isUserInteractionEnabled = false
         self.addChild(speedPanel)
         
-        upSpeedButton.position = CGPoint(x: 118, y: 707)
+        upSpeedButton.position = CGPoint(x: 118, y: 677)
         upSpeedButton.zPosition = 1
         upSpeedButton.name = "upSpeedButton"
         upSpeedButton.isUserInteractionEnabled = false
         self.addChild(upSpeedButton)
         
-        downSpeedButton.position = CGPoint(x: 52, y: 707)
+        downSpeedButton.position = CGPoint(x: 52, y: 677)
         downSpeedButton.zPosition = 1
         downSpeedButton.name = "downSpeedButton"
         downSpeedButton.isUserInteractionEnabled = false
@@ -337,7 +337,7 @@ public class GameScene: SKScene {
         }
         else if startButton.contains(pos) {
             hintControl += 1
-            checkHintControl()
+            
             
             if alreadyFoundTarget {
                 autoClear()
@@ -367,16 +367,15 @@ public class GameScene: SKScene {
                     checkHintControl()
                 } else { //deu bom a busca
                     createDrawPathList()
+                    //iterations = 0
                     
                     timer = Timer.scheduledTimer(timeInterval: drawingSpeed, target: self, selector: #selector(GameScene.paintVisitedTile), userInfo: nil, repeats: true)
                 }
                 
+                checkHintControl()
             }
             
         }
-//        else if isObstacleAtPos(pos: pos) {
-//            handleCleanObstacleAtPos(pos: pos)
-//        }
         
     }
     
@@ -399,14 +398,13 @@ public class GameScene: SKScene {
             PlaygroundPage.current.assessmentStatus = .pass(message: "Let's make this more interesting! Drag and drop to change the planet and target positions.")
         }
         
-        if hintControl >= 5 && !changedAlgorithm {
+        if hintControl >= 5 && !changedAlgorithm && !impossiblePath {
             PlaygroundPage.current.assessmentStatus = .pass(message: "How about trying another method? Pick a different algorithm.")
             //PlaygroundPage.current.assessmentStatus = .pass(message: "Oiii")
             //PlaygroundPage.current.assessmentStatus = .fail(hints: ["How about trying another method? Pick a different algorithm."], solution: nil)
         }
         
     }
-    
     
     func handleCleanObstacleAtPos(pos: CGPoint) {
         let posId = posToId(pos: Pos(Int(pos.x), Int(pos.y)))
@@ -747,6 +745,11 @@ public class GameScene: SKScene {
             }
             
             //lowestCostIndex is the "current square"
+            if openList.isEmpty {
+                impossiblePath = true
+                return false
+            }
+            
             let currSquare = openList[lowestCostIndex]
             let currentSquarePos = CGPoint(x: currSquare.x, y: currSquare.y)
             
@@ -756,9 +759,9 @@ public class GameScene: SKScene {
             
             openList.remove(at: lowestCostIndex)
             
+                
             if currSquare.isTarget {
                 //found target
-                
                 targetId = currSquare.id
                 alreadyFoundTarget = true
                 
@@ -769,7 +772,6 @@ public class GameScene: SKScene {
             //for each of the 8 squares adjacent to this current square...
             for offsetY in -1...1 {
                 for offsetX in -1...1 {
-                    iterations += 1
                     
                     let row = Int(currentSquarePos.y) + offsetY
                     let column = Int(currentSquarePos.x) + offsetX
@@ -779,9 +781,11 @@ public class GameScene: SKScene {
                         //if it's not out of the screen
                         if !(nextCandidate.isPlayer) {
                             //if it isn't itself
+                            
                             if !(nextCandidate.isObstacle) && !(nextCandidate.alreadyVisitedNode) {
                                 //if it's not an obstacle and has not been visited yet
                                 //if it isn’t on the open list, add it to the open list
+                                
                                 if !nextCandidate.isOnOpenList {
                                    
                                     openList.append(nextCandidate)
@@ -832,13 +836,9 @@ public class GameScene: SKScene {
                 }
             }
             
-            if iterations >= mapSize {
-                impossiblePath = true
-                return false
-            }
-            
         }
-        return true
+        
+        return false
     }
     
     func copyTileArrayToUnexploredList() {
