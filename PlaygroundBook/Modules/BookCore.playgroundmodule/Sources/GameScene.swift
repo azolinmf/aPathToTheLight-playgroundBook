@@ -124,49 +124,49 @@ public class GameScene: SKScene {
     
     func createButtons() {
         
-        startButton.position = CGPoint(x: 320, y: 720)
+        startButton.position = CGPoint(x: 412, y: 716)
         startButton.zPosition = 1
         startButton.name = "startButton"
         startButton.isUserInteractionEnabled = false
         self.addChild(startButton)
         
-        clearButton.position = CGPoint(x: 340, y: 675)
+        clearButton.position = CGPoint(x: 433, y: 671)
         clearButton.zPosition = 1
         clearButton.name = "clearButton"
         clearButton.isUserInteractionEnabled = false
         self.addChild(clearButton)
 
-        aStarButton.position = CGPoint(x: 90, y: 711)
+        aStarButton.position = CGPoint(x: 178, y: 707)
         aStarButton.zPosition = 1
         aStarButton.name = "aStarButton"
         aStarButton.isUserInteractionEnabled = false
         self.addChild(aStarButton)
         
-        dButton.position = CGPoint(x: 160, y: 715)
+        dButton.position = CGPoint(x: 250, y: 711)
         dButton.zPosition = 1
         dButton.name = "dButton"
         dButton.isUserInteractionEnabled = false
         self.addChild(dButton)
         
-        bfsButton.position = CGPoint(x: 230, y: 715)
+        bfsButton.position = CGPoint(x: 318, y: 711)
         bfsButton.zPosition = 1
         bfsButton.name = "bfsButton"
         bfsButton.isUserInteractionEnabled = false
         self.addChild(bfsButton)
         
-        speedPanel.position = CGPoint(x: 420, y: 720)
+        speedPanel.position = CGPoint(x: 85, y: 707)
         speedPanel.zPosition = 1
         speedPanel.name = "speedPanel"
         speedPanel.isUserInteractionEnabled = false
         self.addChild(speedPanel)
         
-        upSpeedButton.position = CGPoint(x: 404, y: 689)
+        upSpeedButton.position = CGPoint(x: 118, y: 707)
         upSpeedButton.zPosition = 1
         upSpeedButton.name = "upSpeedButton"
         upSpeedButton.isUserInteractionEnabled = false
         self.addChild(upSpeedButton)
         
-        downSpeedButton.position = CGPoint(x: 434, y: 689)
+        downSpeedButton.position = CGPoint(x: 52, y: 707)
         downSpeedButton.zPosition = 1
         downSpeedButton.name = "downSpeedButton"
         downSpeedButton.isUserInteractionEnabled = false
