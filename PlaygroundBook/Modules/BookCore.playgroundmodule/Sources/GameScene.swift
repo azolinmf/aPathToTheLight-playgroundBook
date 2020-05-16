@@ -78,20 +78,14 @@ public class GameScene: SKScene {
     override public func didMove(to view: SKView) {
         
         self.anchorPoint = CGPoint(x: 0, y: 0)
-        
 //        debug.position = CGPoint(x: 50, y: 50)
 //        self.addChild(debug)
-        
-        
-        
         self.addChild(movablePlayer)
         self.addChild(movableStar)
         
         var id = 0
         for column in 0...columns-1 {
-            
             tileArray.append([Tile]())
-            
             for row in 0...rows-1 {
                 
                 let square = Tile()
@@ -115,7 +109,6 @@ public class GameScene: SKScene {
         }
         
         setPlayerAndTarget()
-        
         createButtons()
         
     }
@@ -286,6 +279,21 @@ public class GameScene: SKScene {
         paintIdList.removeAll()
     }
     
+    func isObstacleAtPos(pos : CGPoint) -> Bool {
+        
+        let posId = posToId(pos: Pos(Int(pos.x), Int(pos.y)))
+        
+        for column in 0...tileArray.count-1 {
+            for row in 0...tileArray[0].count-1 {
+                if tileArray[column][row].id == posId {
+                    return tileArray[column][row].isObstacle
+                }
+            }
+        }
+        
+        return false
+    }
+    
     func touchDown(atPoint pos : CGPoint) {
         
         if clearButton.contains(pos){
@@ -331,7 +339,24 @@ public class GameScene: SKScene {
             }
             
         }
+//        else if isObstacleAtPos(pos: pos) {
+//            handleCleanObstacleAtPos(pos: pos)
+//        }
         
+    }
+    
+    func handleCleanObstacleAtPos(pos: CGPoint) {
+        let posId = posToId(pos: Pos(Int(pos.x), Int(pos.y)))
+        for column in 0...tileArray.count-1 {
+            for row in 0...tileArray[0].count-1 {
+                if tileArray[column][row].id == posId {
+                    tileArray[column][row].isObstacle = false
+                    tileArray[column][row].tile.texture = SKTexture(imageNamed: "nebula")
+                    tileArray[column][row].tile.size = CGSize(width: nodeSize, height: nodeSize)
+                    tileArray[column][row].tile.alpha = nodeInitialOpacity
+                }
+            }
+        }
     }
     
     func handleTapOnDownSpeed() {
@@ -883,11 +908,9 @@ public class GameScene: SKScene {
     
     override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { touchMoved(toPoint: t.location(in: self)) }
-        
         if let touch = touches.first, movableNode != nil {
             movableNode!.position = touch.location(in: self)
         }
-        
     }
     
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -966,7 +989,5 @@ public class GameScene: SKScene {
         }
         
     }
-
     
 }
-
