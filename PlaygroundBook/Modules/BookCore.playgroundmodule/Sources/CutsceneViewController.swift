@@ -15,7 +15,7 @@ public class CutsceneViewController: UIViewController {
     
     let intro = UIImageView(image: UIImage(named: "introBackground"))
     let titleText = UITextField(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-    
+
     let firstPageView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let firstPageSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let firstPageScene = SKScene(fileNamed: "FirstPage")
@@ -23,7 +23,7 @@ public class CutsceneViewController: UIViewController {
     let firstPlanetSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
     let firstPlanetScene = SKScene(fileNamed: "PlanetScene")
     let planetNode = SKSpriteNode(imageNamed: "planet")
-    
+
     let secondPageView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let secondPageSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let secondPageScene = SKScene(fileNamed: "SecondPage")
@@ -31,7 +31,7 @@ public class CutsceneViewController: UIViewController {
     let secondStarSKView = SKView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
     let secondStarScene = SKScene(fileNamed: "PlanetScene")
     let starNode = SKSpriteNode(imageNamed: "star")
-    
+
     let finalPageView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let finalPageSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let finalPageScene = SKScene(fileNamed: "FinalPage")
@@ -39,12 +39,11 @@ public class CutsceneViewController: UIViewController {
     let finalStarSKView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
     let finalStarScene = SKScene(fileNamed: "PlanetScene")
     let finalStarNode = SKSpriteNode(imageNamed: "visitedNode2")
-    
+
     let tapToContinueView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let tapToContinueScene = SKScene(fileNamed: "TapToContinue")
-    let goToNextPageView = SKView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-    let goToNextPageScene = SKScene(fileNamed: "GoToNextPage")
-    
+
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,7 +51,6 @@ public class CutsceneViewController: UIViewController {
         view.addGestureRecognizer(tap)
 
         createTapToContinueScene()
-        createGoToNextPageScene()
         createIntro()
         
     }
@@ -151,6 +149,9 @@ public class CutsceneViewController: UIViewController {
         ])
     }
     
+    
+    
+    
     func createSecondPage() {
         secondPageView.backgroundColor = .black
         
@@ -246,7 +247,8 @@ public class CutsceneViewController: UIViewController {
             
         ])
     }
-    
+
+  
     func createFirstPage() {
         
         firstPageView.backgroundColor = .black
@@ -361,29 +363,15 @@ public class CutsceneViewController: UIViewController {
         
     }
     
-    func createGoToNextPageScene() {
-        
-        goToNextPageScene!.scaleMode = .aspectFill
-        goToNextPageScene?.backgroundColor = .clear
-        let fadeIn = SKAction.fadeIn(withDuration: 1.5)
-        let fadeOut = SKAction.fadeOut(withDuration: 1.5)
-        let sequence = SKAction.sequence([fadeIn, fadeOut])
-        let repeatSequence = SKAction.repeatForever(sequence)
-        goToNextPageScene?.run(repeatSequence)
-        
-        goToNextPageView.presentScene(goToNextPageScene)
-        goToNextPageView.backgroundColor = .clear
-        
-        goToNextPageView.translatesAutoresizingMaskIntoConstraints = false
-        
-    }
-    
+     
+
     func createIntro() {
         
         createTitleToIntro()
         
         createSubTitleToIntro()
     
+        
         intro.addSubview(tapToContinueView)
         
         NSLayoutConstraint.activate([
@@ -457,8 +445,9 @@ public class CutsceneViewController: UIViewController {
             titleText.heightAnchor.constraint(equalTo: intro.heightAnchor, multiplier: 0.15)
         ])
     }
+ 
     
-    
+   
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         
         switch (page) {

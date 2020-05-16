@@ -36,7 +36,6 @@
 		9DB73903246E219800C32342 /* PlanetScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB73902246E219800C32342 /* PlanetScene.sks */; };
 		9DB73905246E36E400C32342 /* SecondPage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB73904246E36E400C32342 /* SecondPage.sks */; };
 		9DB73907246E3BE200C32342 /* FinalPage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB73906246E3BE200C32342 /* FinalPage.sks */; };
-		9DB73909246E446B00C32342 /* GoToNextPage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9DB73908246E446B00C32342 /* GoToNextPage.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -171,7 +170,6 @@
 		9DB73902246E219800C32342 /* PlanetScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = PlanetScene.sks; sourceTree = "<group>"; };
 		9DB73904246E36E400C32342 /* SecondPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SecondPage.sks; sourceTree = "<group>"; };
 		9DB73906246E3BE200C32342 /* FinalPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FinalPage.sks; sourceTree = "<group>"; };
-		9DB73908246E446B00C32342 /* GoToNextPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GoToNextPage.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,7 +367,6 @@
 				9DB73900246E0F3700C32342 /* FirstPage.sks */,
 				9DB73904246E36E400C32342 /* SecondPage.sks */,
 				9DB73906246E3BE200C32342 /* FinalPage.sks */,
-				9DB73908246E446B00C32342 /* GoToNextPage.sks */,
 			);
 			path = PrivateResources;
 			sourceTree = "<group>";
@@ -525,7 +522,6 @@
 				5EF2F97C2054B6E400191409 /* ManifestPlist.strings in Resources */,
 				9D5814E5246B4DEA00D02F47 /* GameScene.sks in Resources */,
 				9D5814EA246B584C00D02F47 /* BookCover.png in Resources */,
-				9DB73909246E446B00C32342 /* GoToNextPage.sks in Resources */,
 				5E551EC52371FC3F00784365 /* Assets.xcassets in Resources */,
 				9DB738FF246DFF2C00C32342 /* TapToContinue.sks in Resources */,
 				9DB73903246E219800C32342 /* PlanetScene.sks in Resources */,
