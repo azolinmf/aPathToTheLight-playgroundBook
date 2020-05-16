@@ -8,6 +8,7 @@
 import PlaygroundSupport
 import SpriteKit
 import UIKit
+import AVFoundation
 
 
 public class GameScene: SKScene {
@@ -82,6 +83,8 @@ public class GameScene: SKScene {
     var impossiblePath = false
     var changedAlgorithm = false
     
+    var music: AVAudioPlayer!
+    
     
     override public func didMove(to view: SKView) {
         
@@ -118,6 +121,7 @@ public class GameScene: SKScene {
         
         setPlayerAndTarget()
         createButtons()
+        playMusic()
         
         mapSize = columns*rows
     }
@@ -1054,6 +1058,26 @@ public class GameScene: SKScene {
             timer = Timer.scheduledTimer(timeInterval: drawingSpeed, target: self, selector: #selector(GameScene.paintPath), userInfo: nil, repeats: true)
         }
         
+    }
+    
+    func playMusic() {
+        
+//        do {
+//            music = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath:
+//                Bundle.main.path(forResource: "Bongo_Madness", ofType: "mp3")!))
+//            music.prepareToPlay()
+//            music.numberOfLoops = -1
+//            let audioSession = AVAudioSession.sharedInstance()
+//            do {
+//                try audioSession.setCategory(AVAudioSession.Category.playback)
+//            }
+//            catch {
+//            }
+//        }
+//        catch {
+//            print("Error: could not play theme song")
+//        }
+//        music.play()
     }
     
 }

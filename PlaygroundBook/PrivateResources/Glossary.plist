@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Terms</key>
+	<dict>
+		<key>optimal</key>
+		<dict>
+			<key>Definition</key>
+			<string>An algorithm is optimal when it usses less time than other algorithms, and explores a minimum number of possibilities to find the solution.</string>
+		</dict>
+		<key>complete</key>
+		<dict>
+			<key>Definition</key>
+			<string>A complete algorithm guarantees the return of the correct solution to any problem, if that solution exists.</string>
+		</dict>
+		<key>algorithm</key>
+		<dict>
+			<key>Definition</key>
+			<string>A sequence of actions that is followed in the proccess of solving a specific problem.</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

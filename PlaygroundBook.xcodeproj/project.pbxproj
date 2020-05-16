@@ -28,6 +28,7 @@
 		9D5814E4246B4DEA00D02F47 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E2246B4DEA00D02F47 /* Actions.sks */; };
 		9D5814E5246B4DEA00D02F47 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E3246B4DEA00D02F47 /* GameScene.sks */; };
 		9D5814EA246B584C00D02F47 /* BookCover.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E9246B584C00D02F47 /* BookCover.png */; };
+		9D65A031247068A200BFFD7E /* Glossary.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D65A030247068A200BFFD7E /* Glossary.plist */; };
 		9DB738F8246CEB4E00C32342 /* CutsceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */; };
 		9DB738FB246CED1F00C32342 /* Helios Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FA246CED1F00C32342 /* Helios Regular.ttf */; };
 		9DB738FD246DAD1200C32342 /* jd_equinox.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FC246DAD1200C32342 /* jd_equinox.ttf */; };
@@ -162,6 +163,7 @@
 		9D5814E2246B4DEA00D02F47 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		9D5814E3246B4DEA00D02F47 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		9D5814E9246B584C00D02F47 /* BookCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BookCover.png; sourceTree = "<group>"; };
+		9D65A030247068A200BFFD7E /* Glossary.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Glossary.plist; sourceTree = "<group>"; };
 		9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutsceneViewController.swift; sourceTree = "<group>"; };
 		9DB738FA246CED1F00C32342 /* Helios Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helios Regular.ttf"; sourceTree = "<group>"; };
 		9DB738FC246DAD1200C32342 /* jd_equinox.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jd_equinox.ttf; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				9DB73900246E0F3700C32342 /* FirstPage.sks */,
 				9DB73904246E36E400C32342 /* SecondPage.sks */,
 				9DB73906246E3BE200C32342 /* FinalPage.sks */,
+				9D65A030247068A200BFFD7E /* Glossary.plist */,
 			);
 			path = PrivateResources;
 			sourceTree = "<group>";
@@ -530,6 +533,7 @@
 				9DB738FB246CED1F00C32342 /* Helios Regular.ttf in Resources */,
 				9D5814E4246B4DEA00D02F47 /* Actions.sks in Resources */,
 				9DB73905246E36E400C32342 /* SecondPage.sks in Resources */,
+				9D65A031247068A200BFFD7E /* Glossary.plist in Resources */,
 				9DB73901246E0F3700C32342 /* FirstPage.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
