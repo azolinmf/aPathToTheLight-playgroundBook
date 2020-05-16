@@ -387,6 +387,10 @@ public class GameScene: SKScene {
         if hintControl == 4 && !placedObstacles {
             PlaygroundPage.current.assessmentStatus = .pass(message: "Try adding obstacles! Touch and swipe on the map to place them.")
         }
+        if hintControl == 2 && !movedPlayerOrTarget && !changedAlgorithm && !placedObstacles {
+            PlaygroundPage.current.assessmentStatus = .pass(message: "Let's make this more interesting! Drag and drop to change the planet and target positions.")
+        }
+        
         if hintControl == 3 && !movedPlayerOrTarget {
             PlaygroundPage.current.assessmentStatus = .pass(message: "Let's make this more interesting! Drag and drop to change the planet and target positions.")
         }
