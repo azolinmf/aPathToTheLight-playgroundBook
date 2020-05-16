@@ -5,9 +5,9 @@
 	<key>Version</key>
 	<string>1.0</string>
 	<key>Name</key>
-	<string>Path Finding Algorithms</string>
+	<string>A Path to the Light</string>
 	<key>Description</key>
-	<string>Enum?</string>
+	<string>searching for the stars</string>
 	<key>LiveViewMode</key>
 	<string>VisibleByDefault</string>
 	<key>LiveViewEdgeToEdge</key>
