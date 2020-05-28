@@ -23,12 +23,14 @@
 		5EF2F97C2054B6E400191409 /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5EF2F97E2054B6E400191409 /* ManifestPlist.strings */; };
 		5EF2F9AE2054BBF300191409 /* LiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF2F9AD2054BBF300191409 /* LiveViewController.swift */; };
 		5EF2F9B72054E6FB00191409 /* Chapters in Copy Book Contents */ = {isa = PBXBuildFile; fileRef = 5EF2F9B62054E6F900191409 /* Chapters */; };
+		9D4778B02470C41800F72211 /* gameplay.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9D4778AF2470C41800F72211 /* gameplay.mp3 */; };
+		9D4778B22470C89000F72211 /* About.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9D4778B12470C89000F72211 /* About.txt */; };
 		9D5814DF246B4CB600D02F47 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5814DE246B4CB600D02F47 /* GameScene.swift */; };
 		9D5814E1246B4D1D00D02F47 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5814E0246B4D1D00D02F47 /* Tile.swift */; };
 		9D5814E4246B4DEA00D02F47 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E2246B4DEA00D02F47 /* Actions.sks */; };
 		9D5814E5246B4DEA00D02F47 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E3246B4DEA00D02F47 /* GameScene.sks */; };
-		9D5814EA246B584C00D02F47 /* BookCover.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D5814E9246B584C00D02F47 /* BookCover.png */; };
 		9D65A031247068A200BFFD7E /* Glossary.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D65A030247068A200BFFD7E /* Glossary.plist */; };
+		9D65A037247098FA00BFFD7E /* BookCover.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D65A036247098FA00BFFD7E /* BookCover.png */; };
 		9DB738F8246CEB4E00C32342 /* CutsceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */; };
 		9DB738FB246CED1F00C32342 /* Helios Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FA246CED1F00C32342 /* Helios Regular.ttf */; };
 		9DB738FD246DAD1200C32342 /* jd_equinox.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB738FC246DAD1200C32342 /* jd_equinox.ttf */; };
@@ -131,7 +133,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5E086DC02051C5A7004D8D25 /* PlaygroundBook.playgroundbook */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PlaygroundBook.playgroundbook; path = PathFindingAlgorithms.playgroundbook; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E086DC02051C5A7004D8D25 /* PathFindingAlgoritms.playgroundbook */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PathFindingAlgoritms.playgroundbook; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E086DC72051DD03004D8D25 /* BookOverridingBuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BookOverridingBuildSettings.xcconfig; sourceTree = "<group>"; };
 		5E086DCD2051DDB8004D8D25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LiveView.storyboard; sourceTree = "<group>"; };
 		5E086DCF2051DF0F004D8D25 /* Manifest.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Manifest.plist; sourceTree = "<group>"; };
@@ -158,12 +160,14 @@
 		5EF2F9AB2054BBF300191409 /* libBookCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBookCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EF2F9AD2054BBF300191409 /* LiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewController.swift; sourceTree = "<group>"; };
 		5EF2F9B62054E6F900191409 /* Chapters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Chapters; sourceTree = "<group>"; };
+		9D4778AF2470C41800F72211 /* gameplay.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameplay.mp3; sourceTree = "<group>"; };
+		9D4778B12470C89000F72211 /* About.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = About.txt; sourceTree = "<group>"; };
 		9D5814DE246B4CB600D02F47 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		9D5814E0246B4D1D00D02F47 /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		9D5814E2246B4DEA00D02F47 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		9D5814E3246B4DEA00D02F47 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		9D5814E9246B584C00D02F47 /* BookCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BookCover.png; sourceTree = "<group>"; };
 		9D65A030247068A200BFFD7E /* Glossary.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Glossary.plist; sourceTree = "<group>"; };
+		9D65A036247098FA00BFFD7E /* BookCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BookCover.png; sourceTree = "<group>"; };
 		9DB738F7246CEB4E00C32342 /* CutsceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutsceneViewController.swift; sourceTree = "<group>"; };
 		9DB738FA246CED1F00C32342 /* Helios Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helios Regular.ttf"; sourceTree = "<group>"; };
 		9DB738FC246DAD1200C32342 /* jd_equinox.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jd_equinox.ttf; sourceTree = "<group>"; };
@@ -203,7 +207,7 @@
 		5E086DA4204F706E004D8D25 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5E086DC02051C5A7004D8D25 /* PlaygroundBook.playgroundbook */,
+				5E086DC02051C5A7004D8D25 /* PathFindingAlgoritms.playgroundbook */,
 				5EF2F9AB2054BBF300191409 /* libBookCore.a */,
 				5E6F7E612368FB6A008CC191 /* libBookAPI.a */,
 				5EA2E3BD2056F35A00416A35 /* LiveViewTestApp.app */,
@@ -251,6 +255,7 @@
 		5E2A7ADC204F611300F4E17A = {
 			isa = PBXGroup;
 			children = (
+				9D4778B12470C89000F72211 /* About.txt */,
 				5E0E37542065A065008FA4BE /* README.md */,
 				5E086DC12051C5A7004D8D25 /* PlaygroundBook */,
 				5EA2E3BE2056F35A00416A35 /* LiveViewTestApp */,
@@ -358,10 +363,11 @@
 			isa = PBXGroup;
 			children = (
 				9DB738F9246CECF200C32342 /* Fonts */,
+				9D4778AE2470C2D800F72211 /* Audio */,
 				9D5814E2246B4DEA00D02F47 /* Actions.sks */,
 				9DB73902246E219800C32342 /* PlanetScene.sks */,
+				9D65A036247098FA00BFFD7E /* BookCover.png */,
 				9D5814E3246B4DEA00D02F47 /* GameScene.sks */,
-				9D5814E9246B584C00D02F47 /* BookCover.png */,
 				5EF2F97E2054B6E400191409 /* ManifestPlist.strings */,
 				5E086DCC2051DDAE004D8D25 /* LiveView.storyboard */,
 				5E551EC42371FC3F00784365 /* Assets.xcassets */,
@@ -381,6 +387,14 @@
 				5E6F7E582367B51E008CC191 /* UserModules */,
 			);
 			name = "Supporting Content";
+			sourceTree = "<group>";
+		};
+		9D4778AE2470C2D800F72211 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				9D4778AF2470C41800F72211 /* gameplay.mp3 */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 		9DB738F9246CECF200C32342 /* Fonts */ = {
@@ -412,7 +426,7 @@
 			);
 			name = PlaygroundBook;
 			productName = PlaygroundBook;
-			productReference = 5E086DC02051C5A7004D8D25 /* PlaygroundBook.playgroundbook */;
+			productReference = 5E086DC02051C5A7004D8D25 /* PathFindingAlgoritms.playgroundbook */;
 			productType = "com.apple.product-type.bundle";
 		};
 		5E6F7E602368FB6A008CC191 /* BookAPI */ = {
@@ -523,15 +537,17 @@
 			files = (
 				9DB738FD246DAD1200C32342 /* jd_equinox.ttf in Resources */,
 				5EF2F97C2054B6E400191409 /* ManifestPlist.strings in Resources */,
+				9D4778B22470C89000F72211 /* About.txt in Resources */,
 				9D5814E5246B4DEA00D02F47 /* GameScene.sks in Resources */,
-				9D5814EA246B584C00D02F47 /* BookCover.png in Resources */,
 				5E551EC52371FC3F00784365 /* Assets.xcassets in Resources */,
 				9DB738FF246DFF2C00C32342 /* TapToContinue.sks in Resources */,
 				9DB73903246E219800C32342 /* PlanetScene.sks in Resources */,
+				9D65A037247098FA00BFFD7E /* BookCover.png in Resources */,
 				9DB73907246E3BE200C32342 /* FinalPage.sks in Resources */,
 				5E086DCA2051DDAE004D8D25 /* LiveView.storyboard in Resources */,
 				9DB738FB246CED1F00C32342 /* Helios Regular.ttf in Resources */,
 				9D5814E4246B4DEA00D02F47 /* Actions.sks in Resources */,
+				9D4778B02470C41800F72211 /* gameplay.mp3 in Resources */,
 				9DB73905246E36E400C32342 /* SecondPage.sks in Resources */,
 				9D65A031247068A200BFFD7E /* Glossary.plist in Resources */,
 				9DB73901246E0F3700C32342 /* FirstPage.sks in Resources */,

@@ -399,11 +399,11 @@ public class CutsceneViewController: UIViewController {
         
         let cfURL2 = Bundle.main.url(forResource: "jd_equinox", withExtension: "ttf") as! CFURL
         CTFontManagerRegisterFontsForURL(cfURL2, CTFontManagerScope.process, nil)
-        let subtitleFont = UIFont(name: "JD Equinox", size:  60.0)
+        let subtitleFont = UIFont(name: "JD Equinox", size:  48.0)
         
         //creates and adds subtitle
         let subtitle = UITextField(frame: intro.frame)
-        subtitle.text = "IN OUTER SPACE"
+        subtitle.text = "PATH FINDING ALGORITHMS IN OUTER SPACE"
         subtitle.adjustsFontSizeToFitWidth = true
         subtitle.textColor = .white
         subtitle.backgroundColor = .clear
@@ -425,10 +425,10 @@ public class CutsceneViewController: UIViewController {
         //imports custom fonts
         let cfURL = Bundle.main.url(forResource: "Helios Regular", withExtension: "ttf") as! CFURL
         CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
-        let titleFont = UIFont(name: "Helios Pro", size:  90.0)
+        let titleFont = UIFont(name: "Helios Pro", size:  110.0)
         
         //creates and adds title
-        titleText.text = "PATH FINDING ALGORITHMS"
+        titleText.text = "A PATH TO THE LIGHT"
         titleText.adjustsFontSizeToFitWidth = true
         titleText.textColor = .white
         titleText.backgroundColor = .clear

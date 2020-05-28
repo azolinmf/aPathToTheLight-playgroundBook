@@ -12,7 +12,6 @@ import AVFoundation
 
 
 public class GameScene: SKScene {
-        
     
     //map and general app variables
     var tileArray: [[Tile]] = [[Tile]]()
@@ -24,7 +23,6 @@ public class GameScene: SKScene {
     let columns = 15
     let nodeSize = 30
     var mapSize = 0
-    var iterations = 0
     
     //interactable
     let startButton = SKSpriteNode(imageNamed: "startButton")
@@ -35,13 +33,15 @@ public class GameScene: SKScene {
     let upSpeedButton = SKSpriteNode(imageNamed: "up")
     let downSpeedButton = SKSpriteNode(imageNamed: "down")
     let speedPanel = SKSpriteNode(imageNamed: "speed1")
+    let aLed = SKSpriteNode(imageNamed: "led")
+    let dLed = SKSpriteNode(imageNamed: "ledApagado")
+    let bfsLed = SKSpriteNode(imageNamed: "ledApagado")
     
-    let debug = SKLabelNode(text: "debug")
     var lastTouchPosition = CGPoint(x: 0, y: 0)
     
     //all searches variables
-    var playerPos = CGPoint(x: 5, y: 10)
-    var targetPos = CGPoint(x: 12, y: 12)
+    var playerPos = CGPoint(x: 3, y: 15)
+    var targetPos = CGPoint(x: 10, y: 6)
     var alreadyFoundTarget = false
     var targetId = 0
     var playerId = 0
@@ -74,7 +74,7 @@ public class GameScene: SKScene {
     var drawingSpeed2 = 0.10
     var drawingSpeed3 = 0.05
     var timer : Timer? = Timer()
-    var nodeInitialOpacity = CGFloat(1.0)
+    var nodeInitialOpacity = CGFloat(0.9)
     var nodeVisitedOpacity = CGFloat(0.0)
     
     var hintControl = 0
@@ -89,8 +89,6 @@ public class GameScene: SKScene {
     override public func didMove(to view: SKView) {
         
         self.anchorPoint = CGPoint(x: 0, y: 0)
-//        debug.position = CGPoint(x: 50, y: 50)
-//        self.addChild(debug)
         self.addChild(movablePlayer)
         self.addChild(movableStar)
         
@@ -176,6 +174,23 @@ public class GameScene: SKScene {
         downSpeedButton.isUserInteractionEnabled = false
         self.addChild(downSpeedButton)
         
+        aLed.position = CGPoint(x: 151, y: 638)
+        aLed.zPosition = 1
+        aLed.name = "aLed"
+        aLed.isUserInteractionEnabled = false
+        self.addChild(aLed)
+        
+        dLed.position = CGPoint(x: 219, y: 638)
+        dLed.zPosition = 1
+        dLed.name = "dLed"
+        dLed.isUserInteractionEnabled = false
+        self.addChild(dLed)
+        
+        bfsLed.position = CGPoint(x: 297, y: 638)
+        bfsLed.zPosition = 1
+        bfsLed.name = "bfsLed"
+        bfsLed.isUserInteractionEnabled = false
+        self.addChild(bfsLed)
         
         
     }
@@ -198,7 +213,6 @@ public class GameScene: SKScene {
             }
         }
         
-        iterations = 0
         impossiblePath = false
         
         unexploredList.removeAll()
@@ -283,8 +297,6 @@ public class GameScene: SKScene {
             }
         }
         
-        iterations = 0
-        
         unexploredList.removeAll()
         closedList.removeAll()
         openList.removeAll()
@@ -367,7 +379,6 @@ public class GameScene: SKScene {
                     checkHintControl()
                 } else { //deu bom a busca
                     createDrawPathList()
-                    //iterations = 0
                     
                     timer = Timer.scheduledTimer(timeInterval: drawingSpeed, target: self, selector: #selector(GameScene.paintVisitedTile), userInfo: nil, repeats: true)
                 }
@@ -380,25 +391,25 @@ public class GameScene: SKScene {
     }
     
     func checkHintControl() {
-        //numeros completamente arbitrarios fodac o codigo eh meu
+        //numeros completamente arbitrarios
         
         if impossiblePath {
             PlaygroundPage.current.assessmentStatus = .pass(message: "It's impossible to reach the shine of the stars like this! Clear the obstacles and try another configuration.")
             return
         }
         
-        if hintControl == 4 && !placedObstacles {
+        if hintControl == 3 && !placedObstacles {
             PlaygroundPage.current.assessmentStatus = .pass(message: "Try adding obstacles! Touch and swipe on the map to place them.")
         }
         if hintControl == 2 && !movedPlayerOrTarget && !changedAlgorithm && !placedObstacles {
             PlaygroundPage.current.assessmentStatus = .pass(message: "Let's make this more interesting! Drag and drop to change the planet and target positions.")
         }
         
-        if hintControl == 3 && !movedPlayerOrTarget {
+        if hintControl == 2 && !movedPlayerOrTarget {
             PlaygroundPage.current.assessmentStatus = .pass(message: "Let's make this more interesting! Drag and drop to change the planet and target positions.")
         }
         
-        if hintControl >= 5 && !changedAlgorithm && !impossiblePath {
+        if hintControl >= 4 && !changedAlgorithm && !impossiblePath {
             PlaygroundPage.current.assessmentStatus = .pass(message: "How about trying another method? Pick a different algorithm.")
             //PlaygroundPage.current.assessmentStatus = .pass(message: "Oiii")
             //PlaygroundPage.current.assessmentStatus = .fail(hints: ["How about trying another method? Pick a different algorithm."], solution: nil)
@@ -447,21 +458,26 @@ public class GameScene: SKScene {
             algorithm = "A*"
             
             bfsButton.texture = SKTexture(imageNamed: "leverUp")
+            bfsLed.texture = SKTexture(imageNamed: "ledApagado")
             bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y + 4)
             
             aStarButton.texture = SKTexture(imageNamed: "leverDown")
+            aLed.texture = SKTexture(imageNamed: "led")
             aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y - 4)
         } else {
             
             bfsButton.texture = SKTexture(imageNamed: "leverDown")
+            bfsLed.texture = SKTexture(imageNamed: "led")
             bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y - 4)
             
             if algorithm == "A*" {
                 aStarButton.texture = SKTexture(imageNamed: "leverUp")
+                aLed.texture = SKTexture(imageNamed: "ledApagado")
                 aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y + 4)
                 
             } else if algorithm == "Dijkstra" {
                 dButton.texture = SKTexture(imageNamed: "leverUp")
+                dLed.texture = SKTexture(imageNamed: "ledApagado")
                 dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y + 4)
             }
             
@@ -474,21 +490,26 @@ public class GameScene: SKScene {
             algorithm = "Breadth-first"
             
             dButton.texture = SKTexture(imageNamed: "leverUp")
+            dLed.texture = SKTexture(imageNamed: "ledApagado")
             dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y + 4)
             
             bfsButton.texture = SKTexture(imageNamed: "leverDown")
+            bfsLed.texture = SKTexture(imageNamed: "led")
             bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y - 4)
         } else {
             
             dButton.texture = SKTexture(imageNamed: "leverDown")
+            dLed.texture = SKTexture(imageNamed: "led")
             dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y - 4)
             
             if algorithm == "A*" {
                 aStarButton.texture = SKTexture(imageNamed: "leverUp")
+                aLed.texture = SKTexture(imageNamed: "ledApagado")
                 aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y + 4)
                 
             } else if algorithm == "Breadth-first" {
                 bfsButton.texture = SKTexture(imageNamed: "leverUp")
+                bfsLed.texture = SKTexture(imageNamed: "ledApagado")
                 bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y + 4)
             }
             
@@ -502,21 +523,26 @@ public class GameScene: SKScene {
             algorithm = "Dijkstra"
             
             aStarButton.texture = SKTexture(imageNamed: "leverUp")
+            aLed.texture = SKTexture(imageNamed: "ledApagado")
             aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y + 4)
             
             dButton.texture = SKTexture(imageNamed: "leverDown")
+            dLed.texture = SKTexture(imageNamed: "led")
             dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y - 4)
         } else {
             
             aStarButton.texture = SKTexture(imageNamed: "leverDown")
+            aLed.texture = SKTexture(imageNamed: "led")
             aStarButton.position = CGPoint(x: aStarButton.position.x, y: aStarButton.position.y - 4)
             
             if algorithm == "Dijkstra" {
                 dButton.texture = SKTexture(imageNamed: "leverUp")
+                dLed.texture = SKTexture(imageNamed: "ledApagado")
                 dButton.position = CGPoint(x: dButton.position.x, y: dButton.position.y + 4)
                 
             } else if algorithm == "Breadth-first" {
                 bfsButton.texture = SKTexture(imageNamed: "leverUp")
+                bfsLed.texture = SKTexture(imageNamed: "ledApagado")
                 bfsButton.position = CGPoint(x: bfsButton.position.x, y: bfsButton.position.y + 4)
             }
             
@@ -1062,22 +1088,22 @@ public class GameScene: SKScene {
     
     func playMusic() {
         
-//        do {
-//            music = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath:
-//                Bundle.main.path(forResource: "Bongo_Madness", ofType: "mp3")!))
-//            music.prepareToPlay()
-//            music.numberOfLoops = -1
-//            let audioSession = AVAudioSession.sharedInstance()
-//            do {
-//                try audioSession.setCategory(AVAudioSession.Category.playback)
-//            }
-//            catch {
-//            }
-//        }
-//        catch {
-//            print("Error: could not play theme song")
-//        }
-//        music.play()
+        do {
+            music = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath:
+                Bundle.main.path(forResource: "gameplay", ofType: "mp3")!))
+            music.prepareToPlay()
+            music.numberOfLoops = -1
+            let audioSession = AVAudioSession.sharedInstance()
+            do {
+                try audioSession.setCategory(AVAudioSession.Category.playback)
+            }
+            catch {
+            }
+        }
+        catch {
+            print("Error: could not play theme song")
+        }
+        music.play()
     }
     
 }

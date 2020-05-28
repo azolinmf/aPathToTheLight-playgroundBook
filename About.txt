@@ -1,0 +1,6 @@
+
+A Path To The Light is a PlaygroundBook application created and submited for the Swift Student Challenge in the 2020 WWDC.
+
+All coding and assets were developed by the author of this PlaygroundBook.
+
+The music "Path Finding Algorithms Gameplay", used in this application, is authored by the composer Gabriel Oliveira, and had the using licensed for this purpose.
