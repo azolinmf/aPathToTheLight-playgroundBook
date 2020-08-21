@@ -1,5 +1,5 @@
 # A Path To The Light
-**A Swift PlaygroundBook by Maria Fernanda Azolin submited to WWDC20 Swift Student Challenge, in May 2020.**
+**A Swift PlaygroundBook by Maria Fernanda Azolin submited to WWDC20 Swift Student Challenge, in May 2020. [Accepted]**
 
 ![](gitPreview.png)
 
@@ -12,5 +12,5 @@ To enjoy this experience yourself, download the zipped .playgroundbook file in t
 
 ## Feedbacks
 Any feedbacks or comments about this project are welcome! :)
-Feel free to contact me on my email (azolin.mf@gmail.com) or  [Instagram](https://www.instagram.com/mfernanda_azolin/)!
+Feel free to contact me on my [Twitter](https://twitter.com/azolin_mafe), email (azolin.mf@gmail.com) or [Instagram](https://www.instagram.com/mfernanda_azolin/)!
 
