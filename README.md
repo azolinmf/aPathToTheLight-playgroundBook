@@ -12,5 +12,5 @@ To enjoy this experience yourself, download the zipped .playgroundbook file in t
 
 ## Feedbacks
 Any feedbacks or comments about this project are welcome! :)
-Feel free to contact me on my [Twitter](https://twitter.com/azolin_mafe), email (azolin.mf@gmail.com) or [Instagram](https://www.instagram.com/mfernanda_azolin/)!
+Feel free to contact me on my [Twitter](https://twitter.com/azolin_mafe), email (azolin.mf@gmail.com) or [Instagram](https://www.instagram.com/mafe_tech/)!
 
